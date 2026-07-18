@@ -1,0 +1,356 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - complementary [ref=e3]:
+      - generic [ref=e10]:
+        - paragraph [ref=e11]: Claimify
+        - paragraph [ref=e12]: Clinical review workspace
+      - navigation [ref=e13]:
+        - link "Dashboard" [ref=e14] [cursor=pointer]:
+          - /url: /
+        - link "Patients" [ref=e20] [cursor=pointer]:
+          - /url: /patients
+        - link "Claims" [ref=e26] [cursor=pointer]:
+          - /url: /claims
+        - link "Review Queue" [ref=e31] [cursor=pointer]:
+          - /url: /review-queue
+        - link "Settings" [ref=e36] [cursor=pointer]:
+          - /url: /settings
+      - generic [ref=e40]:
+        - paragraph [ref=e41]: Demo environment
+        - paragraph [ref=e44]: Fictional data · Mock AI
+    - main [ref=e45]:
+      - generic [ref=e46]:
+        - paragraph [ref=e47]: Clinical operations
+        - generic [ref=e48]: Jordan Lee, RN
+      - generic [ref=e52]:
+        - generic [ref=e53]:
+          - link "Back to claims" [ref=e54] [cursor=pointer]:
+            - /url: /claims
+          - generic [ref=e57]:
+            - generic [ref=e58]:
+              - heading "837P claim · James Fitzgerald" [level=1] [ref=e59]
+              - paragraph [ref=e60]: Manual / imported claim
+            - generic [ref=e61]: clm-new-3f10750c
+          - generic [ref=e63]:
+            - generic [ref=e64]: DOS 2026-07-09
+            - generic [ref=e67]: — · Riverside Orthopedics
+        - generic [ref=e76]:
+          - generic [ref=e77]:
+            - generic [ref=e78]:
+              - paragraph [ref=e79]: Error injection
+              - combobox "Select error scenario" [ref=e82]:
+                - option "Missing subscriber ID" [selected]
+                - option "Invalid place of service"
+                - option "Missing rendering NPI"
+                - option "Unbalanced claim total"
+                - option "Invalid diagnosis pointer"
+                - option "DOS outside encounter"
+                - option "Duplicate service line"
+                - option "Undocumented procedure"
+                - option "Undocumented diagnosis"
+                - option "Upcoded E/M level"
+              - generic [ref=e83]:
+                - button "Inject" [ref=e84] [cursor=pointer]
+                - button "Reset to draft" [ref=e92] [cursor=pointer]
+            - paragraph [ref=e96]: Blanks the subscriber member ID so the payer cannot identify the beneficiary.
+            - generic [ref=e97]:
+              - generic [ref=e98]: "Expected failure:"
+              - generic [ref=e99]: Rejection at 2010BA NM109
+          - generic [ref=e101]:
+            - generic [ref=e106]:
+              - paragraph [ref=e107]: Import from PDF
+              - paragraph [ref=e108]: Upload a completed CMS-1500 / 837P PDF to prefill every box.
+            - button "Choose PDF" [ref=e109] [cursor=pointer]
+          - generic [ref=e114]:
+            - generic [ref=e115]:
+              - generic [ref=e116]:
+                - generic [ref=e117]:
+                  - heading "Billing Provider" [level=3] [ref=e118]
+                  - generic [ref=e123]: Loop 2010AA
+                - generic [ref=e125]:
+                  - generic [ref=e127]:
+                    - generic "CMS-1500 Box 33" [ref=e128]: "33"
+                    - generic [ref=e129]:
+                      - generic [ref=e130]: Organization name
+                      - textbox "33 Organization name" [ref=e131]: Riverside Orthopedics
+                  - generic [ref=e133]:
+                    - generic "CMS-1500 Box 33a" [ref=e134]: 33a
+                    - generic [ref=e135]:
+                      - generic [ref=e136]: NPI (NM109)
+                      - textbox "33a NPI (NM109)" [ref=e137]: "9876543210"
+                  - generic [ref=e139]:
+                    - generic "CMS-1500 Box 25" [ref=e140]: "25"
+                    - generic [ref=e141]:
+                      - generic [ref=e142]: Federal Tax ID (REF*EI)
+                      - textbox "25 Federal Tax ID (REF*EI)" [ref=e143]: "587654321"
+                  - generic [ref=e145]:
+                    - generic "CMS-1500 Box 33b" [ref=e146]: 33b
+                    - generic [ref=e147]:
+                      - generic [ref=e148]: Taxonomy (PRV03)
+                      - textbox "33b Taxonomy (PRV03)" [ref=e149]: 207X00000X
+                  - generic [ref=e151]:
+                    - generic "CMS-1500 Box 33" [ref=e152]: "33"
+                    - generic [ref=e153]:
+                      - generic [ref=e154]: Address line 1
+                      - textbox "33 Address line 1" [ref=e155]: 1900 RIVER RD
+                  - generic [ref=e157]:
+                    - generic "CMS-1500 Box 33" [ref=e158]: "33"
+                    - generic [ref=e159]:
+                      - generic [ref=e160]: City
+                      - textbox "33 City" [ref=e161]: GAINESVILLE
+                  - generic [ref=e162]:
+                    - generic [ref=e164]:
+                      - generic "CMS-1500 Box 33" [ref=e165]: "33"
+                      - generic [ref=e166]:
+                        - generic [ref=e167]: State
+                        - textbox "33 State" [ref=e168]: FL
+                    - generic [ref=e170]:
+                      - generic "CMS-1500 Box 33" [ref=e171]: "33"
+                      - generic [ref=e172]:
+                        - generic [ref=e173]: ZIP
+                        - textbox "33 ZIP" [ref=e174]: "32605"
+                - generic [ref=e175]:
+                  - paragraph [ref=e176]: Rendering Provider — Loop 2310B
+                  - generic [ref=e177]:
+                    - generic [ref=e179]:
+                      - generic "CMS-1500 Box 24J" [ref=e180]: 24J
+                      - generic [ref=e181]:
+                        - generic [ref=e182]: NPI (NM109)
+                        - textbox "24J NPI (NM109)" [ref=e183]
+                    - generic [ref=e185]:
+                      - generic "No CMS-1500 box — 837P Loop 2310B (rendering provider)" [ref=e186]: —
+                      - generic [ref=e187]:
+                        - generic [ref=e188]: First name
+                        - textbox "— First name" [ref=e189]
+                    - generic [ref=e191]:
+                      - generic "No CMS-1500 box — 837P Loop 2310B (rendering provider)" [ref=e192]: —
+                      - generic [ref=e193]:
+                        - generic [ref=e194]: Last name
+                        - textbox "— Last name" [ref=e195]
+              - generic [ref=e196]:
+                - generic [ref=e197]:
+                  - heading "Subscriber" [level=3] [ref=e198]
+                  - generic [ref=e202]: Loop 2010BA
+                - generic [ref=e204]:
+                  - generic [ref=e206]:
+                    - generic "CMS-1500 Box 1a" [ref=e207]: 1a
+                    - generic [ref=e208]:
+                      - generic [ref=e209]: Insured's ID number / MBI (NM109)
+                      - textbox "1a Insured's ID number / MBI (NM109)" [ref=e210]: JF00667788990
+                  - generic [ref=e212]:
+                    - generic "CMS-1500 Box 11" [ref=e213]: "11"
+                    - generic [ref=e214]:
+                      - generic [ref=e215]: Insured's group number
+                      - textbox "11 Insured's group number" [ref=e216]: 2290-LK
+                  - generic [ref=e218]:
+                    - generic "CMS-1500 Box 2" [ref=e219]: "2"
+                    - generic [ref=e220]:
+                      - generic [ref=e221]: Patient first name
+                      - textbox "2 Patient first name" [ref=e222]: James
+                  - generic [ref=e224]:
+                    - generic "CMS-1500 Box 2" [ref=e225]: "2"
+                    - generic [ref=e226]:
+                      - generic [ref=e227]: Patient last name
+                      - textbox "2 Patient last name" [ref=e228]: Fitzgerald
+                  - generic [ref=e230]:
+                    - generic "CMS-1500 Box 3" [ref=e231]: "3"
+                    - generic [ref=e232]:
+                      - generic [ref=e233]: Date of birth
+                      - textbox "3 Date of birth" [ref=e234]: 1960-04-16
+                  - generic [ref=e235]:
+                    - generic [ref=e237]:
+                      - generic "CMS-1500 Box 3" [ref=e238]: "3"
+                      - generic [ref=e239]:
+                        - generic [ref=e240]: Sex
+                        - combobox "3 Sex" [ref=e241]:
+                          - option "M" [selected]
+                          - option "F"
+                          - option "U"
+                    - generic [ref=e243]:
+                      - generic "CMS-1500 Box 6" [ref=e244]: "6"
+                      - generic [ref=e245]:
+                        - generic [ref=e246]: Relationship
+                        - textbox "6 Relationship" [disabled] [ref=e247]: 18 — Self
+                  - generic [ref=e249]:
+                    - generic "CMS-1500 Box 5" [ref=e250]: "5"
+                    - generic [ref=e251]:
+                      - generic [ref=e252]: City
+                      - textbox "5 City" [ref=e253]: GAINESVILLE
+                  - generic [ref=e254]:
+                    - generic [ref=e256]:
+                      - generic "CMS-1500 Box 5" [ref=e257]: "5"
+                      - generic [ref=e258]:
+                        - generic [ref=e259]: State
+                        - textbox "5 State" [ref=e260]: FL
+                    - generic [ref=e262]:
+                      - generic "CMS-1500 Box 5" [ref=e263]: "5"
+                      - generic [ref=e264]:
+                        - generic [ref=e265]: ZIP
+                        - textbox "5 ZIP" [ref=e266]: "32605"
+              - generic [ref=e267]:
+                - generic [ref=e268]:
+                  - heading "Payer" [level=3] [ref=e269]
+                  - generic [ref=e272]: Loop 2010BB
+                - generic [ref=e274]:
+                  - generic [ref=e276]:
+                    - generic "No CMS-1500 box — 837P Loop 2010BB (payer / carrier block)" [ref=e277]: —
+                    - generic [ref=e278]:
+                      - generic [ref=e279]: Payer ID (NM109)
+                      - textbox "— Payer ID (NM109)" [ref=e280]: "999996666"
+                  - generic [ref=e282]:
+                    - generic "No CMS-1500 box — carrier name/address block (top of form)" [ref=e283]: —
+                    - generic [ref=e284]:
+                      - generic [ref=e285]: Payer name
+                      - textbox "— Payer name" [ref=e286]: KEY INSURANCE COMPANY
+                  - generic [ref=e288]:
+                    - generic "CMS-1500 Box 1" [ref=e289]: "1"
+                    - generic [ref=e290]:
+                      - generic [ref=e291]: Insurance type / filing indicator (SBR09)
+                      - textbox "1 Insurance type / filing indicator (SBR09)" [disabled] [ref=e292]: CI — Medicare Part B
+              - generic [ref=e293]:
+                - generic [ref=e294]:
+                  - heading "Claim Information" [level=3] [ref=e295]
+                  - generic [ref=e301]: Loop 2300
+                - generic [ref=e303]:
+                  - generic [ref=e305]:
+                    - generic "CMS-1500 Box 26" [ref=e306]: "26"
+                    - generic [ref=e307]:
+                      - generic [ref=e308]: Patient account number (CLM01)
+                      - textbox "26 Patient account number (CLM01)" [ref=e309]: "31008233"
+                  - generic [ref=e311]:
+                    - generic "CMS-1500 Box 24B is per service line; this is the claim default applied to each line" [ref=e312]: 24B
+                    - generic [ref=e313]:
+                      - generic [ref=e314]: Place of service — default (CLM05-1)
+                      - combobox "24B Place of service — default (CLM05-1)" [ref=e315]:
+                        - option "11 — Office"
+                        - option "12 — Home"
+                        - option "21 — Inpatient Hospital" [selected]
+                        - option "22 — On-Campus Outpatient Hospital"
+                        - option "31 — Skilled Nursing Facility"
+                        - option "32 — Nursing Facility"
+                        - option "49 — Independent Clinic"
+                  - generic [ref=e317]:
+                    - generic "CMS-1500 Box 22" [ref=e318]: "22"
+                    - generic [ref=e319]:
+                      - generic [ref=e320]: Resubmission code (CLM05-3)
+                      - combobox "22 Resubmission code (CLM05-3)" [ref=e321]:
+                        - option "1 — Original claim" [selected]
+                        - option "7 — Replacement of prior claim"
+                        - option "8 — Void / cancel of prior claim"
+                  - generic [ref=e323]:
+                    - generic "CMS-1500 Box 23" [ref=e324]: "23"
+                    - generic [ref=e325]:
+                      - generic [ref=e326]: Prior authorization (REF*G1)
+                      - textbox "23 Prior authorization (REF*G1)" [ref=e327]
+                  - generic [ref=e329]:
+                    - generic "CMS-1500 Box 14" [ref=e330]: "14"
+                    - generic [ref=e331]:
+                      - generic [ref=e332]: Date of current illness / onset
+                      - textbox "14 Date of current illness / onset" [ref=e333]
+              - generic [ref=e334]:
+                - generic [ref=e335]:
+                  - heading "Diagnosis Codes" [level=3] [ref=e336]
+                  - generic [ref=e340]:
+                    - generic "CMS-1500 Box 21" [ref=e341]: Box 21
+                    - generic [ref=e342]: HI segment
+                - generic [ref=e344]:
+                  - generic [ref=e345]: A
+                  - textbox "Diagnosis A code" [ref=e346]:
+                    - /placeholder: ICD-10
+                    - text: M17.11
+                  - textbox "Diagnosis A description" [ref=e347]:
+                    - /placeholder: Description
+                    - text: Unilateral primary osteoarthritis, right knee
+                  - button "Remove diagnosis A" [ref=e348] [cursor=pointer]
+                - button "Add diagnosis" [ref=e352] [cursor=pointer]
+              - generic [ref=e354]:
+                - generic [ref=e355]:
+                  - heading "Service Lines" [level=3] [ref=e356]
+                  - generic [ref=e360]:
+                    - generic "CMS-1500 Box 24" [ref=e361]: Box 24
+                    - generic [ref=e362]: Loop 2400
+                - generic [ref=e364]:
+                  - generic [ref=e365]:
+                    - generic [ref=e366]: LX 01
+                    - button "Remove service line 1" [ref=e367] [cursor=pointer]
+                  - generic [ref=e371]:
+                    - generic [ref=e373]:
+                      - generic "CMS-1500 Box 24D" [ref=e374]: 24D
+                      - generic [ref=e375]:
+                        - generic [ref=e376]: CPT / HCPCS (SV101)
+                        - textbox "24D CPT / HCPCS (SV101)" [ref=e377]: "27447"
+                    - generic [ref=e379]:
+                      - generic "CMS-1500 Box 24D" [ref=e380]: 24D
+                      - generic [ref=e381]:
+                        - generic [ref=e382]: Modifiers
+                        - textbox "24D Modifiers" [ref=e383]:
+                          - /placeholder: 25, 59
+                          - text: LT
+                    - generic [ref=e385]:
+                      - generic "CMS-1500 Box 24F" [ref=e386]: 24F
+                      - generic [ref=e387]:
+                        - generic [ref=e388]: Charge $ (SV102)
+                        - spinbutton "24F Charge $ (SV102)" [ref=e389]: "650"
+                    - generic [ref=e391]:
+                      - generic "CMS-1500 Box 24G" [ref=e392]: 24G
+                      - generic [ref=e393]:
+                        - generic [ref=e394]: Days / units (SV104)
+                        - spinbutton "24G Days / units (SV104)" [ref=e395]: "1"
+                    - generic [ref=e397]:
+                      - generic "Not a CMS-1500 box — supplemental narrative for the code" [ref=e398]: —
+                      - generic [ref=e399]:
+                        - generic [ref=e400]: Description
+                        - textbox "— Description" [ref=e401]: Total knee arthroplasty
+                    - generic [ref=e403]:
+                      - generic "CMS-1500 Box 24A" [ref=e404]: 24A
+                      - generic [ref=e405]:
+                        - generic [ref=e406]: Date(s) of service (DTP*472)
+                        - textbox "24A Date(s) of service (DTP*472)" [ref=e407]: 2026-07-09
+                    - generic [ref=e409]:
+                      - generic "CMS-1500 Box 24B" [ref=e410]: 24B
+                      - generic [ref=e411]:
+                        - generic [ref=e412]: Place of service
+                        - combobox "24B Place of service" [ref=e413]:
+                          - option "Claim default" [selected]
+                          - option "11 — Office"
+                          - option "12 — Home"
+                          - option "21 — Inpatient Hospital"
+                          - option "22 — On-Campus Outpatient Hospital"
+                          - option "31 — Skilled Nursing Facility"
+                          - option "32 — Nursing Facility"
+                          - option "49 — Independent Clinic"
+                  - generic [ref=e414]:
+                    - generic [ref=e415]:
+                      - generic "CMS-1500 Box 24E" [ref=e416]: 24E
+                      - text: Diagnosis pointers (SV107)
+                    - generic "M17.11 Unilateral primary osteoarthritis, right knee" [ref=e418] [cursor=pointer]:
+                      - checkbox "A M17.11" [checked] [ref=e419]
+                      - generic [ref=e420]: A
+                      - generic [ref=e421]: M17.11
+                - generic [ref=e422]:
+                  - button "Add service line" [ref=e423] [cursor=pointer]
+                  - generic [ref=e426]:
+                    - generic [ref=e427]:
+                      - paragraph [ref=e428]: Line sum (Σ SV102)
+                      - paragraph [ref=e429]: $650.00
+                    - generic [ref=e432]:
+                      - generic "CMS-1500 Box 28" [ref=e433]: "28"
+                      - generic [ref=e434]:
+                        - generic [ref=e435]: Total charge (CLM02)
+                        - spinbutton "Claim total charge" [ref=e436]: "650"
+            - generic [ref=e437]:
+              - button "Saved" [disabled] [ref=e438]
+              - button "Submit for validation" [ref=e443] [cursor=pointer]
+              - paragraph [ref=e446]: Submitting saves the claim, then runs all three validation layers.
+            - generic [ref=e447]:
+              - heading "Validation feedback" [level=2] [ref=e449]
+              - list [ref=e454]:
+                - listitem [ref=e455]:
+                  - generic [ref=e458]: 1. Structural
+                - listitem [ref=e459]:
+                  - generic [ref=e462]: 2. Content & coding
+                - listitem [ref=e463]:
+                  - generic [ref=e466]: 3. Clinical evidence
+              - generic [ref=e467]: Submit the claim to run structural, content, and clinical-evidence validation.
+  - button "Open Next.js Dev Tools" [ref=e474] [cursor=pointer]
+  - alert [ref=e478]

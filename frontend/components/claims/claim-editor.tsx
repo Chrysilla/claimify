@@ -289,40 +289,35 @@ export function ClaimEditor({ initial }: { initial: ClaimDetail }) {
           </p>
         )}
       </div>
-      <div className="grid items-start gap-6 xl:grid-cols-[3fr_2fr]">
-        <div className="min-w-0 space-y-5">
-          <ClaimForm claim={claim} onChange={updateClaim} disabled={running} />
-          <div className="sticky bottom-4 flex items-center gap-3 rounded-xl border border-slate-200 bg-white/95 p-3 shadow-lg backdrop-blur">
-            <Button
-              variant="secondary"
-              onClick={saveDraft}
-              disabled={running || saving || !dirty}
-            >
-              <Save size={15} />
-              {saving ? "Saving…" : dirty ? "Save draft" : "Saved"}
-            </Button>
-            <Button onClick={submit} disabled={running || saving}>
-              <SendHorizonal size={15} />
-              {running ? "Validating…" : "Submit for validation"}
-            </Button>
-            <p className="ml-auto hidden text-xs text-slate-400 md:block">
-              Submitting saves the claim, then runs all three validation
-              layers.
-            </p>
-          </div>
+      <div className="space-y-5">
+        <ClaimForm claim={claim} onChange={updateClaim} disabled={running} />
+        <div className="sticky bottom-4 z-10 flex items-center gap-3 rounded-xl border border-slate-200 bg-white/95 p-3 shadow-lg backdrop-blur">
+          <Button
+            variant="secondary"
+            onClick={saveDraft}
+            disabled={running || saving || !dirty}
+          >
+            <Save size={15} />
+            {saving ? "Saving…" : dirty ? "Save draft" : "Saved"}
+          </Button>
+          <Button onClick={submit} disabled={running || saving}>
+            <SendHorizonal size={15} />
+            {running ? "Validating…" : "Submit for validation"}
+          </Button>
+          <p className="ml-auto hidden text-xs text-slate-400 md:block">
+            Submitting saves the claim, then runs all three validation layers.
+          </p>
         </div>
-        <div className="min-w-0 xl:sticky xl:top-20">
-          <ValidationPanel
-            jobStatus={jobStatus}
-            engine={engine}
-            layers={layers}
-            activity={activity}
-            findings={findings}
-            confidence={confidence}
-            streamError={streamError}
-            onFindingUpdate={onFindingUpdate}
-          />
-        </div>
+        <ValidationPanel
+          jobStatus={jobStatus}
+          engine={engine}
+          layers={layers}
+          activity={activity}
+          findings={findings}
+          confidence={confidence}
+          streamError={streamError}
+          onFindingUpdate={onFindingUpdate}
+        />
       </div>
     </div>
   );

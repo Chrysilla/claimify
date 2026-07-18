@@ -5,6 +5,7 @@ import type {
   ClaimFinding,
   ClaimImportResult,
   ClaimSummary,
+  DemoJsonSummary,
   JobEvent,
 } from "./types";
 
@@ -26,6 +27,18 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 export const claimsApi = {
   list: () => request<ClaimSummary[]>("/api/claims"),
   get: (id: string) => request<ClaimDetail>(`/api/claims/${id}`),
+  // Create a new claim: blank when no claim passed, or from an imported claim.
+  create: (claim?: Claim837P) =>
+    request<ClaimDetail>("/api/claims", {
+      method: "POST",
+      body: JSON.stringify(claim ? { claim } : {}),
+    }),
+  listDemoJson: () => request<DemoJsonSummary[]>("/api/claims/demo-json"),
+  importJson: (file: string) =>
+    request<ClaimDetail>("/api/claims/import-json", {
+      method: "POST",
+      body: JSON.stringify({ file }),
+    }),
   save: (id: string, claim: Claim837P, scenario: string | null) =>
     request<ClaimDetail>(`/api/claims/${id}`, {
       method: "PUT",

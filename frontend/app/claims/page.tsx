@@ -1,10 +1,21 @@
 "use client";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { Search } from "lucide-react";
+import { useRouter } from "next/navigation";
+import {
+  FileJson,
+  FileUp,
+  Loader2,
+  Plus,
+  Search,
+} from "lucide-react";
 import { claimsApi } from "@/lib/claims/client-api";
-import type { ClaimStatus, ClaimSummary } from "@/lib/claims/types";
-import { Badge, Card } from "@/components/ui";
+import type {
+  ClaimStatus,
+  ClaimSummary,
+  DemoJsonSummary,
+} from "@/lib/claims/types";
+import { Badge, Button, Card } from "@/components/ui";
 
 const SETTING_TONE: Record<string, "teal" | "amber" | "blue" | "slate"> = {
   AMB: "teal",
@@ -31,9 +42,17 @@ function usd(n: number): string {
 }
 
 export default function ClaimsPage() {
+  const router = useRouter();
   const [claims, setClaims] = useState<ClaimSummary[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [query, setQuery] = useState("");
+
+  // Create / import actions
+  const [busy, setBusy] = useState<null | "new" | "pdf" | "json">(null);
+  const [actionError, setActionError] = useState<string | null>(null);
+  const [jsonOpen, setJsonOpen] = useState(false);
+  const [jsonFiles, setJsonFiles] = useState<DemoJsonSummary[] | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     let active = true;
@@ -46,6 +65,63 @@ export default function ClaimsPage() {
     };
   }, []);
 
+  async function createNew() {
+    setBusy("new");
+    setActionError(null);
+    try {
+      const detail = await claimsApi.create();
+      router.push(`/claims/${detail.id}`);
+    } catch (e) {
+      setActionError(e instanceof Error ? e.message : "Could not create a claim");
+      setBusy(null);
+    }
+  }
+
+  async function importFromPdf(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+    setBusy("pdf");
+    setActionError(null);
+    try {
+      const { claim } = await claimsApi.importPdf(file);
+      const detail = await claimsApi.create(claim);
+      router.push(`/claims/${detail.id}`);
+    } catch (err) {
+      setActionError(err instanceof Error ? err.message : "PDF import failed");
+      setBusy(null);
+    }
+  }
+
+  async function toggleJson() {
+    const next = !jsonOpen;
+    setJsonOpen(next);
+    if (next && !jsonFiles) {
+      setActionError(null);
+      try {
+        setJsonFiles(await claimsApi.listDemoJson());
+      } catch (e) {
+        setActionError(
+          e instanceof Error ? e.message : "Could not list demo JSON files",
+        );
+        setJsonOpen(false);
+      }
+    }
+  }
+
+  async function importFromJson(file: string) {
+    setBusy("json");
+    setActionError(null);
+    setJsonOpen(false);
+    try {
+      const detail = await claimsApi.importJson(file);
+      router.push(`/claims/${detail.id}`);
+    } catch (e) {
+      setActionError(e instanceof Error ? e.message : "JSON import failed");
+      setBusy(null);
+    }
+  }
+
   const shown = useMemo(
     () =>
       (claims ?? []).filter((c) =>
@@ -56,17 +132,126 @@ export default function ClaimsPage() {
 
   return (
     <div className="space-y-5">
-      <div>
-        <h1 className="text-2xl font-semibold text-slate-900">
-          837P claims workspace
-        </h1>
-        <p className="mt-1 max-w-3xl text-sm text-slate-500">
-          A claim validation and medical-necessity scoring engine for 837P
-          professional claims. Each draft is generated from a synthetic ambient
-          encounter; submit one to run structural, content, and agentic
-          clinical-evidence checks and see the probability Medicare accepts it.
-        </p>
+      <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+        <div>
+          <h1 className="text-2xl font-semibold text-slate-900">
+            837P claims workspace
+          </h1>
+          <p className="mt-1 max-w-3xl text-sm text-slate-500">
+            A claim validation and medical-necessity scoring engine for 837P
+            professional claims. Each draft is generated from a synthetic ambient
+            encounter; submit one to run structural, content, and agentic
+            clinical-evidence checks and see the probability Medicare accepts it.
+          </p>
+        </div>
+
+        <div className="flex shrink-0 flex-wrap items-center gap-2">
+          <Button onClick={createNew} disabled={busy !== null}>
+            {busy === "new" ? (
+              <Loader2 size={15} className="animate-spin" />
+            ) : (
+              <Plus size={15} />
+            )}
+            New claim
+          </Button>
+
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="application/pdf,.pdf"
+            className="hidden"
+            onChange={importFromPdf}
+          />
+          <Button
+            variant="secondary"
+            onClick={() => fileInputRef.current?.click()}
+            disabled={busy !== null}
+          >
+            {busy === "pdf" ? (
+              <Loader2 size={15} className="animate-spin" />
+            ) : (
+              <FileUp size={15} />
+            )}
+            Import PDF
+          </Button>
+
+          <div className="relative">
+            <Button
+              variant="secondary"
+              onClick={toggleJson}
+              disabled={busy !== null}
+            >
+              {busy === "json" ? (
+                <Loader2 size={15} className="animate-spin" />
+              ) : (
+                <FileJson size={15} />
+              )}
+              Import from JSON
+            </Button>
+            {jsonOpen && (
+              <>
+                <button
+                  type="button"
+                  aria-label="Close menu"
+                  className="fixed inset-0 z-10 cursor-default"
+                  onClick={() => setJsonOpen(false)}
+                />
+                <div className="absolute right-0 z-20 mt-2 max-h-96 w-96 overflow-y-auto rounded-xl border border-slate-200 bg-white p-2 shadow-xl">
+                  <p className="px-2 py-1 text-xs font-semibold uppercase tracking-wide text-slate-400">
+                    Mock 837P claims · demo-data/
+                  </p>
+                  {!jsonFiles && (
+                    <div className="p-3 text-sm text-slate-400">Loading…</div>
+                  )}
+                  {jsonFiles?.map((f) => (
+                    <button
+                      key={f.file}
+                      type="button"
+                      onClick={() => importFromJson(f.file)}
+                      className="block w-full rounded-lg px-2 py-2 text-left hover:bg-slate-50"
+                    >
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="truncate text-sm font-semibold text-slate-800">
+                          {f.label}
+                        </span>
+                        {f.severity && (
+                          <Badge
+                            tone={
+                              f.severity === "HIGH" || f.severity === "SEVERE"
+                                ? "rose"
+                                : f.severity === "MODERATE"
+                                  ? "amber"
+                                  : "slate"
+                            }
+                          >
+                            {f.severity.toLowerCase()}
+                          </Badge>
+                        )}
+                      </div>
+                      <p className="truncate font-mono text-[11px] text-slate-400">
+                        {f.patient_name} · {f.line_count} line
+                        {f.line_count === 1 ? "" : "s"} · {usd(f.total_charge)} ·{" "}
+                        {f.file}
+                      </p>
+                    </button>
+                  ))}
+                  {jsonFiles?.length === 0 && (
+                    <div className="p-3 text-sm text-slate-400">
+                      No JSON files in demo-data/.
+                    </div>
+                  )}
+                </div>
+              </>
+            )}
+          </div>
+        </div>
       </div>
+
+      {actionError && (
+        <div className="rounded-xl border border-rose-200 bg-rose-50 p-3 text-sm text-rose-700">
+          {actionError}
+        </div>
+      )}
 
       {error && (
         <div className="rounded-xl border border-rose-200 bg-rose-50 p-5 text-sm text-rose-700">

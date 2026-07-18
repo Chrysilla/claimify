@@ -149,8 +149,9 @@ export function getDb(): Database.Database {
 
 export function dbExistsAndSeeded(): boolean {
   if (!fs.existsSync(DB_FILE)) return false;
+  // Exclude the placeholder encounter used by manually created / imported claims.
   const row = getDb()
-    .prepare("SELECT COUNT(*) AS n FROM encounters")
+    .prepare("SELECT COUNT(*) AS n FROM encounters WHERE id != '__manual__'")
     .get() as { n: number };
   return row.n > 0;
 }
