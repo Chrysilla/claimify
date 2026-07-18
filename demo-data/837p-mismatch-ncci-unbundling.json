@@ -1,0 +1,110 @@
+{
+  "id" : "c06b3d04726ed3bd37edba8f",
+  "objectType" : "CLAIM",
+  "patientControlNumber" : "31007412",
+  "chargeAmount" : 88.00,
+  "_mismatch" : {
+    "type" : "NCCI_UNBUNDLING",
+    "severity" : "MODERATE",
+    "description" : "Unbundling. A Basic Metabolic Panel (CPT 80048) is billed separately on the same date as a Comprehensive Metabolic Panel (CPT 80053). Per NCCI Procedure-to-Procedure edits, 80048 is a component of 80053 (Column 2 / Column 1 pair, modifier indicator 0 — no modifier permitted to bypass). The two panels should be billed as the single comprehensive panel.",
+    "column1Code" : "80053",
+    "column2Code" : "80048",
+    "modifierIndicator" : "0",
+    "expectedBilling" : "Bill 80053 alone; 80048 is included."
+  },
+  "facilityCode" : { "subType" : "PLACE_OF_SERVICE", "code" : "11", "desc" : "Office" },
+  "placeOfServiceType" : "OFFICE",
+  "frequencyCode" : { "subType" : "FREQUENCY_CODE", "code" : "1", "desc" : "Original claim" },
+  "serviceDateFrom" : "2026-05-19",
+  "serviceDateTo" : "2026-05-19",
+  "subscriber" : {
+    "payerResponsibilitySequence" : "PRIMARY",
+    "groupOrPolicyNumber" : "6612-CM",
+    "claimFilingIndicatorCode" : "CI",
+    "insurancePlanType" : "COMMERCIAL",
+    "person" : {
+      "entityRole" : "INSURED_SUBSCRIBER",
+      "entityType" : "INDIVIDUAL",
+      "identificationType" : "MEMBER_ID",
+      "identifier" : "AL00223344556",
+      "lastNameOrOrgName" : "Alvarez",
+      "firstName" : "Maria",
+      "birthDate" : "1981-09-27",
+      "gender" : "FEMALE"
+    },
+    "payer" : {
+      "entityRole" : "PAYER",
+      "entityType" : "BUSINESS",
+      "identificationType" : "PAYOR_ID",
+      "identifier" : "999996666",
+      "lastNameOrOrgName" : "KEY INSURANCE COMPANY"
+    }
+  },
+  "patient" : {
+    "relationshipType" : "SELF",
+    "person" : {
+      "entityRole" : "PATIENT",
+      "entityType" : "INDIVIDUAL",
+      "lastNameOrOrgName" : "Alvarez",
+      "firstName" : "Maria",
+      "birthDate" : "1981-09-27",
+      "gender" : "FEMALE",
+      "address" : { "line" : "45 SUNSET DR", "city" : "MIAMI", "stateCode" : "FL", "zipCode" : "33125" }
+    }
+  },
+  "providerSignatureIndicator" : "Y",
+  "assignmentParticipationCode" : "A",
+  "assignmentCertificationIndicator" : "Y",
+  "releaseOfInformationCode" : "I",
+  "clearinghouseTraceNumber" : "17312345600010021",
+  "billingProvider" : {
+    "entityRole" : "BILLING_PROVIDER",
+    "entityType" : "BUSINESS",
+    "identificationType" : "NPI",
+    "identifier" : "9876543210",
+    "taxId" : "587654321",
+    "taxIdType" : "EIN",
+    "lastNameOrOrgName" : "Ben Kildare Service",
+    "address" : { "line" : "234 SEAWAY ST", "city" : "MIAMI", "stateCode" : "FL", "zipCode" : "33111" },
+    "providerTaxonomy" : { "subType" : "PROVIDER_TAXONOMY", "code" : "207R00000X", "desc" : "Internal Medicine" }
+  },
+  "diags" : [ {
+    "subType" : "ICD_10_PRINCIPAL",
+    "code" : "E785",
+    "desc" : "Hyperlipidemia, unspecified",
+    "formattedCode" : "E78.5"
+  } ],
+  "serviceLines" : [ {
+    "chargeAmount" : 58.00,
+    "serviceDateFrom" : "2026-05-19",
+    "unitType" : "UNIT",
+    "unitCount" : 1,
+    "procedure" : { "subType" : "CPT", "code" : "80053", "desc" : "Comprehensive metabolic panel" },
+    "diagPointers" : [ 1 ],
+    "diags" : [ { "subType" : "ICD_10_PRINCIPAL", "code" : "E785", "desc" : "Hyperlipidemia, unspecified", "formattedCode" : "E78.5" } ]
+  }, {
+    "chargeAmount" : 30.00,
+    "serviceDateFrom" : "2026-05-19",
+    "unitType" : "UNIT",
+    "unitCount" : 1,
+    "procedure" : { "subType" : "CPT", "code" : "80048", "desc" : "Basic metabolic panel" },
+    "diagPointers" : [ 1 ],
+    "diags" : [ { "subType" : "ICD_10_PRINCIPAL", "code" : "E785", "desc" : "Hyperlipidemia, unspecified", "formattedCode" : "E78.5" } ]
+  } ],
+  "transaction" : {
+    "id" : "c06b3cf4726ed3bd37edba00",
+    "controlNumber" : "0036",
+    "transactionType" : "PROF",
+    "hierarchicalStructureCode" : "0019",
+    "purposeCode" : "00",
+    "originatorApplicationTransactionId" : "244764",
+    "creationDate" : "2026-05-21",
+    "creationTime" : "10:02:00",
+    "claimOrEncounterIdentifierType" : "CHARGEABLE",
+    "transactionSetIdentifierCode" : "837",
+    "implementationConventionReference" : "005010X222",
+    "sender" : { "entityRole" : "SUBMITTER", "entityType" : "BUSINESS", "identificationType" : "ETIN", "identifier" : "TGJ23", "lastNameOrOrgName" : "PREMIER BILLING SERVICE" },
+    "receiver" : { "entityRole" : "RECEIVER", "entityType" : "BUSINESS", "identificationType" : "ETIN", "identifier" : "66783JJT", "lastNameOrOrgName" : "KEY INSURANCE COMPANY" },
+    "creationDateTime" : "2026-05-21T10:02:00"
+  }
+}

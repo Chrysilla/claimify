@@ -1,0 +1,149 @@
+{
+  "id" : "7b1cf8c92d198a68f298653a",
+  "objectType" : "CLAIM",
+  "patientControlNumber" : "31004521",
+  "chargeAmount" : 250.00,
+  "_mismatch" : {
+    "type" : "GENDER_PROCEDURE_MISMATCH",
+    "description" : "Male patient billed for an obstetric procedure (CPT 59400 - routine obstetric care/vaginal delivery) and pregnancy diagnosis (O80). Gender-specific services are only valid for female patients.",
+    "expectedGender" : "FEMALE",
+    "actualGender" : "MALE",
+    "offendingProcedureCodes" : [ "59400" ],
+    "offendingDiagnosisCodes" : [ "O80" ]
+  },
+  "facilityCode" : {
+    "subType" : "PLACE_OF_SERVICE",
+    "code" : "11",
+    "desc" : "Office"
+  },
+  "placeOfServiceType" : "OFFICE",
+  "frequencyCode" : {
+    "subType" : "FREQUENCY_CODE",
+    "code" : "1",
+    "desc" : "Original claim"
+  },
+  "serviceDateFrom" : "2026-03-14",
+  "serviceDateTo" : "2026-03-14",
+  "subscriber" : {
+    "payerResponsibilitySequence" : "PRIMARY",
+    "groupOrPolicyNumber" : "4410-KT",
+    "claimFilingIndicatorCode" : "CI",
+    "insurancePlanType" : "COMMERCIAL",
+    "person" : {
+      "entityRole" : "INSURED_SUBSCRIBER",
+      "entityType" : "INDIVIDUAL",
+      "identificationType" : "MEMBER_ID",
+      "identifier" : "RM00445566778",
+      "lastNameOrOrgName" : "Morales",
+      "firstName" : "Robert",
+      "birthDate" : "1985-08-22",
+      "gender" : "MALE"
+    },
+    "payer" : {
+      "entityRole" : "PAYER",
+      "entityType" : "BUSINESS",
+      "identificationType" : "PAYOR_ID",
+      "identifier" : "999996666",
+      "lastNameOrOrgName" : "KEY INSURANCE COMPANY",
+      "additionalIds" : [ {
+        "qualifierCode" : "G2",
+        "type" : "PROVIDER_COMMERCIAL_NUMBER",
+        "identification" : "KA6663"
+      } ]
+    }
+  },
+  "patient" : {
+    "relationshipType" : "SELF",
+    "person" : {
+      "entityRole" : "PATIENT",
+      "entityType" : "INDIVIDUAL",
+      "lastNameOrOrgName" : "Morales",
+      "firstName" : "Robert",
+      "birthDate" : "1985-08-22",
+      "gender" : "MALE",
+      "address" : {
+        "line" : "1420 PALM AVE",
+        "city" : "ORLANDO",
+        "stateCode" : "FL",
+        "zipCode" : "32801"
+      }
+    }
+  },
+  "providerSignatureIndicator" : "Y",
+  "assignmentParticipationCode" : "A",
+  "assignmentCertificationIndicator" : "Y",
+  "releaseOfInformationCode" : "I",
+  "clearinghouseTraceNumber" : "17312345600009821",
+  "billingProvider" : {
+    "entityRole" : "BILLING_PROVIDER",
+    "entityType" : "BUSINESS",
+    "identificationType" : "NPI",
+    "identifier" : "9876543210",
+    "taxId" : "587654321",
+    "taxIdType" : "EIN",
+    "lastNameOrOrgName" : "Central Family Practice",
+    "address" : {
+      "line" : "88 CLINIC WAY",
+      "city" : "ORLANDO",
+      "stateCode" : "FL",
+      "zipCode" : "32801"
+    },
+    "providerTaxonomy" : {
+      "subType" : "PROVIDER_TAXONOMY",
+      "code" : "207Q00000X",
+      "desc" : "Family Medicine"
+    }
+  },
+  "diags" : [ {
+    "subType" : "ICD_10_PRINCIPAL",
+    "code" : "O80",
+    "desc" : "Encounter for full-term uncomplicated delivery",
+    "formattedCode" : "O80"
+  } ],
+  "serviceLines" : [ {
+    "chargeAmount" : 250.00,
+    "serviceDateFrom" : "2026-03-14",
+    "unitType" : "UNIT",
+    "unitCount" : 1,
+    "procedure" : {
+      "subType" : "CPT",
+      "code" : "59400",
+      "desc" : "Routine obstetric care incl antepartum, vaginal delivery & postpartum care"
+    },
+    "diagPointers" : [ 1 ],
+    "diags" : [ {
+      "subType" : "ICD_10_PRINCIPAL",
+      "code" : "O80",
+      "desc" : "Encounter for full-term uncomplicated delivery",
+      "formattedCode" : "O80"
+    } ]
+  } ],
+  "transaction" : {
+    "id" : "7b1cf8b82d198a68f2986500",
+    "controlNumber" : "0031",
+    "transactionType" : "PROF",
+    "hierarchicalStructureCode" : "0019",
+    "purposeCode" : "00",
+    "originatorApplicationTransactionId" : "244701",
+    "creationDate" : "2026-03-16",
+    "creationTime" : "09:12:00",
+    "claimOrEncounterIdentifierType" : "CHARGEABLE",
+    "transactionSetIdentifierCode" : "837",
+    "implementationConventionReference" : "005010X222",
+    "sender" : {
+      "entityRole" : "SUBMITTER",
+      "entityType" : "BUSINESS",
+      "identificationType" : "ETIN",
+      "identifier" : "TGJ23",
+      "lastNameOrOrgName" : "PREMIER BILLING SERVICE"
+    },
+    "receiver" : {
+      "entityRole" : "RECEIVER",
+      "entityType" : "BUSINESS",
+      "identificationType" : "ETIN",
+      "identifier" : "66783JJT",
+      "lastNameOrOrgName" : "KEY INSURANCE COMPANY"
+    },
+    "creationDateTime" : "2026-03-16T09:12:00"
+  }
+}

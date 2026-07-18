@@ -1,0 +1,99 @@
+{
+  "id" : "04af7140a2c17f7ab1bfedc3",
+  "objectType" : "CLAIM",
+  "patientControlNumber" : "31009118",
+  "chargeAmount" : 145.00,
+  "_mismatch" : {
+    "type" : "GLOBAL_PERIOD_EM_UNBUNDLED",
+    "severity" : "MODERATE",
+    "description" : "A routine post-operative E/M visit (CPT 99213) is billed 14 days after CPT 27447 (total knee arthroplasty, 90-day global period) with no modifier. Routine follow-up care within the global surgical period is already included in the surgical payment. Reporting it separately requires modifier 24 (unrelated E/M during global period) and a documented unrelated reason — neither is present.",
+    "priorSurgeryCode" : "27447",
+    "priorSurgeryDate" : "2026-05-28",
+    "globalPeriodDays" : 90,
+    "daysSinceSurgery" : 14,
+    "offendingProcedureCodes" : [ "99213" ],
+    "missingModifier" : "24",
+    "relatedToSurgery" : true
+  },
+  "facilityCode" : { "subType" : "PLACE_OF_SERVICE", "code" : "11", "desc" : "Office" },
+  "placeOfServiceType" : "OFFICE",
+  "frequencyCode" : { "subType" : "FREQUENCY_CODE", "code" : "1", "desc" : "Original claim" },
+  "serviceDateFrom" : "2026-06-11",
+  "serviceDateTo" : "2026-06-11",
+  "subscriber" : {
+    "payerResponsibilitySequence" : "PRIMARY",
+    "groupOrPolicyNumber" : "7756-GP",
+    "claimFilingIndicatorCode" : "CI",
+    "insurancePlanType" : "COMMERCIAL",
+    "person" : {
+      "entityRole" : "INSURED_SUBSCRIBER",
+      "entityType" : "INDIVIDUAL",
+      "identificationType" : "MEMBER_ID",
+      "identifier" : "SN00990011223",
+      "lastNameOrOrgName" : "Novak",
+      "firstName" : "Susan",
+      "birthDate" : "1958-06-21",
+      "gender" : "FEMALE"
+    },
+    "payer" : { "entityRole" : "PAYER", "entityType" : "BUSINESS", "identificationType" : "PAYOR_ID", "identifier" : "999996666", "lastNameOrOrgName" : "KEY INSURANCE COMPANY" }
+  },
+  "patient" : {
+    "relationshipType" : "SELF",
+    "person" : {
+      "entityRole" : "PATIENT",
+      "entityType" : "INDIVIDUAL",
+      "lastNameOrOrgName" : "Novak",
+      "firstName" : "Susan",
+      "birthDate" : "1958-06-21",
+      "gender" : "FEMALE",
+      "address" : { "line" : "156 WILLOW WAY", "city" : "GAINESVILLE", "stateCode" : "FL", "zipCode" : "32605" }
+    }
+  },
+  "providerSignatureIndicator" : "Y",
+  "assignmentParticipationCode" : "A",
+  "assignmentCertificationIndicator" : "Y",
+  "releaseOfInformationCode" : "I",
+  "clearinghouseTraceNumber" : "17312345600010193",
+  "billingProvider" : {
+    "entityRole" : "BILLING_PROVIDER",
+    "entityType" : "BUSINESS",
+    "identificationType" : "NPI",
+    "identifier" : "9876543210",
+    "taxId" : "587654321",
+    "taxIdType" : "EIN",
+    "lastNameOrOrgName" : "Riverside Orthopedics",
+    "address" : { "line" : "1900 RIVER RD", "city" : "GAINESVILLE", "stateCode" : "FL", "zipCode" : "32605" },
+    "providerTaxonomy" : { "subType" : "PROVIDER_TAXONOMY", "code" : "207X00000X", "desc" : "Orthopaedic Surgery" }
+  },
+  "diags" : [ {
+    "subType" : "ICD_10_PRINCIPAL",
+    "code" : "Z4789",
+    "desc" : "Encounter for other orthopedic aftercare",
+    "formattedCode" : "Z47.89"
+  } ],
+  "serviceLines" : [ {
+    "chargeAmount" : 145.00,
+    "serviceDateFrom" : "2026-06-11",
+    "unitType" : "UNIT",
+    "unitCount" : 1,
+    "procedure" : { "subType" : "CPT", "code" : "99213", "desc" : "Office/outpatient visit, established patient, low complexity" },
+    "diagPointers" : [ 1 ],
+    "diags" : [ { "subType" : "ICD_10_PRINCIPAL", "code" : "Z4789", "desc" : "Encounter for other orthopedic aftercare", "formattedCode" : "Z47.89" } ]
+  } ],
+  "transaction" : {
+    "id" : "04af7130a2c17f7ab1bfed00",
+    "controlNumber" : "0040",
+    "transactionType" : "PROF",
+    "hierarchicalStructureCode" : "0019",
+    "purposeCode" : "00",
+    "originatorApplicationTransactionId" : "244816",
+    "creationDate" : "2026-06-13",
+    "creationTime" : "15:07:00",
+    "claimOrEncounterIdentifierType" : "CHARGEABLE",
+    "transactionSetIdentifierCode" : "837",
+    "implementationConventionReference" : "005010X222",
+    "sender" : { "entityRole" : "SUBMITTER", "entityType" : "BUSINESS", "identificationType" : "ETIN", "identifier" : "TGJ23", "lastNameOrOrgName" : "PREMIER BILLING SERVICE" },
+    "receiver" : { "entityRole" : "RECEIVER", "entityType" : "BUSINESS", "identificationType" : "ETIN", "identifier" : "66783JJT", "lastNameOrOrgName" : "KEY INSURANCE COMPANY" },
+    "creationDateTime" : "2026-06-13T15:07:00"
+  }
+}

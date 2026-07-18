@@ -1,0 +1,98 @@
+{
+  "id" : "f39e603991b06e69a0aedcb2",
+  "objectType" : "CLAIM",
+  "patientControlNumber" : "31008765",
+  "chargeAmount" : 210.00,
+  "_mismatch" : {
+    "type" : "FREQUENCY_LIMIT_EXCEEDED",
+    "severity" : "MODERATE",
+    "description" : "Preventive service frequency edit. CPT G0121 (screening colonoscopy, average risk) is billed with a service date of 2026-06-30 for a patient whose last screening colonoscopy was 2024-08-15. For average-risk patients Medicare covers screening colonoscopy once every 10 years (120 months). Only 22 months have elapsed, so the service is not yet eligible.",
+    "offendingProcedureCodes" : [ "G0121" ],
+    "priorServiceDate" : "2024-08-15",
+    "currentServiceDate" : "2026-06-30",
+    "minimumIntervalMonths" : 120,
+    "elapsedMonths" : 22,
+    "riskCategory" : "AVERAGE"
+  },
+  "facilityCode" : { "subType" : "PLACE_OF_SERVICE", "code" : "22", "desc" : "On Campus-Outpatient Hospital" },
+  "placeOfServiceType" : "OUTPATIENT_HOSPITAL",
+  "frequencyCode" : { "subType" : "FREQUENCY_CODE", "code" : "1", "desc" : "Original claim" },
+  "serviceDateFrom" : "2026-06-30",
+  "serviceDateTo" : "2026-06-30",
+  "subscriber" : {
+    "payerResponsibilitySequence" : "PRIMARY",
+    "groupOrPolicyNumber" : "1145-GC",
+    "claimFilingIndicatorCode" : "MB",
+    "insurancePlanType" : "MEDICARE",
+    "person" : {
+      "entityRole" : "INSURED_SUBSCRIBER",
+      "entityType" : "INDIVIDUAL",
+      "identificationType" : "MEMBER_ID",
+      "identifier" : "RC00889900112",
+      "lastNameOrOrgName" : "Coleman",
+      "firstName" : "Raymond",
+      "birthDate" : "1952-10-08",
+      "gender" : "MALE"
+    },
+    "payer" : { "entityRole" : "PAYER", "entityType" : "BUSINESS", "identificationType" : "PAYOR_ID", "identifier" : "999996666", "lastNameOrOrgName" : "KEY INSURANCE COMPANY" }
+  },
+  "patient" : {
+    "relationshipType" : "SELF",
+    "person" : {
+      "entityRole" : "PATIENT",
+      "entityType" : "INDIVIDUAL",
+      "lastNameOrOrgName" : "Coleman",
+      "firstName" : "Raymond",
+      "birthDate" : "1952-10-08",
+      "gender" : "MALE",
+      "address" : { "line" : "402 BIRCH AVE", "city" : "ORLANDO", "stateCode" : "FL", "zipCode" : "32803" }
+    }
+  },
+  "providerSignatureIndicator" : "Y",
+  "assignmentParticipationCode" : "A",
+  "assignmentCertificationIndicator" : "Y",
+  "releaseOfInformationCode" : "I",
+  "clearinghouseTraceNumber" : "17312345600010150",
+  "billingProvider" : {
+    "entityRole" : "BILLING_PROVIDER",
+    "entityType" : "BUSINESS",
+    "identificationType" : "NPI",
+    "identifier" : "9876543210",
+    "taxId" : "587654321",
+    "taxIdType" : "EIN",
+    "lastNameOrOrgName" : "Central Gastroenterology",
+    "address" : { "line" : "88 CLINIC WAY", "city" : "ORLANDO", "stateCode" : "FL", "zipCode" : "32803" },
+    "providerTaxonomy" : { "subType" : "PROVIDER_TAXONOMY", "code" : "207RG0100X", "desc" : "Gastroenterology" }
+  },
+  "diags" : [ {
+    "subType" : "ICD_10_PRINCIPAL",
+    "code" : "Z1211",
+    "desc" : "Encounter for screening for malignant neoplasm of colon",
+    "formattedCode" : "Z12.11"
+  } ],
+  "serviceLines" : [ {
+    "chargeAmount" : 210.00,
+    "serviceDateFrom" : "2026-06-30",
+    "unitType" : "UNIT",
+    "unitCount" : 1,
+    "procedure" : { "subType" : "HCPCS", "code" : "G0121", "desc" : "Colorectal cancer screening; colonoscopy on individual not meeting high risk criteria" },
+    "diagPointers" : [ 1 ],
+    "diags" : [ { "subType" : "ICD_10_PRINCIPAL", "code" : "Z1211", "desc" : "Encounter for screening for malignant neoplasm of colon", "formattedCode" : "Z12.11" } ]
+  } ],
+  "transaction" : {
+    "id" : "f39e602991b06e69a0aedc00",
+    "controlNumber" : "0039",
+    "transactionType" : "PROF",
+    "hierarchicalStructureCode" : "0019",
+    "purposeCode" : "00",
+    "originatorApplicationTransactionId" : "244803",
+    "creationDate" : "2026-07-02",
+    "creationTime" : "12:18:00",
+    "claimOrEncounterIdentifierType" : "CHARGEABLE",
+    "transactionSetIdentifierCode" : "837",
+    "implementationConventionReference" : "005010X222",
+    "sender" : { "entityRole" : "SUBMITTER", "entityType" : "BUSINESS", "identificationType" : "ETIN", "identifier" : "TGJ23", "lastNameOrOrgName" : "PREMIER BILLING SERVICE" },
+    "receiver" : { "entityRole" : "RECEIVER", "entityType" : "BUSINESS", "identificationType" : "ETIN", "identifier" : "66783JJT", "lastNameOrOrgName" : "KEY INSURANCE COMPANY" },
+    "creationDateTime" : "2026-07-02T12:18:00"
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "id" : "15b08251b3d2808bc2c0fed4",
+  "objectType" : "CLAIM",
+  "patientControlNumber" : "31009552",
+  "chargeAmount" : 320.00,
+  "_mismatch" : {
+    "type" : "MEDICAL_NECESSITY_LCD",
+    "severity" : "MODERATE",
+    "description" : "The vitamin D assay (CPT 82306) is billed with diagnosis Z00.00 (routine general adult medical exam). Vitamin D testing is only reimbursable under the payer's LCD when a supporting condition is documented (e.g., osteoporosis, chronic kidney disease, malabsorption, or a code from the covered dx list). A routine screening diagnosis does not establish medical necessity, and the panel does not permit screening of asymptomatic patients.",
+    "offendingProcedureCodes" : [ "82306" ],
+    "billedDiagnosisCodes" : [ "Z0000" ],
+    "policyReference" : "LCD L34658 - Vitamin D Assay Testing",
+    "coveredDiagnosisExamples" : [ "M81.0 Osteoporosis", "N18.x Chronic kidney disease", "K90.9 Malabsorption" ]
+  },
+  "facilityCode" : { "subType" : "PLACE_OF_SERVICE", "code" : "11", "desc" : "Office" },
+  "placeOfServiceType" : "OFFICE",
+  "frequencyCode" : { "subType" : "FREQUENCY_CODE", "code" : "1", "desc" : "Original claim" },
+  "serviceDateFrom" : "2026-05-27",
+  "serviceDateTo" : "2026-05-27",
+  "subscriber" : {
+    "payerResponsibilitySequence" : "PRIMARY",
+    "groupOrPolicyNumber" : "3391-VD",
+    "claimFilingIndicatorCode" : "CI",
+    "insurancePlanType" : "COMMERCIAL",
+    "person" : {
+      "entityRole" : "INSURED_SUBSCRIBER",
+      "entityType" : "INDIVIDUAL",
+      "identificationType" : "MEMBER_ID",
+      "identifier" : "KP00110022334",
+      "lastNameOrOrgName" : "Patel",
+      "firstName" : "Kiran",
+      "birthDate" : "1990-03-12",
+      "gender" : "FEMALE"
+    },
+    "payer" : { "entityRole" : "PAYER", "entityType" : "BUSINESS", "identificationType" : "PAYOR_ID", "identifier" : "999996666", "lastNameOrOrgName" : "KEY INSURANCE COMPANY" }
+  },
+  "patient" : {
+    "relationshipType" : "SELF",
+    "person" : {
+      "entityRole" : "PATIENT",
+      "entityType" : "INDIVIDUAL",
+      "lastNameOrOrgName" : "Patel",
+      "firstName" : "Kiran",
+      "birthDate" : "1990-03-12",
+      "gender" : "FEMALE",
+      "address" : { "line" : "22 ELM CIRCLE", "city" : "MIAMI", "stateCode" : "FL", "zipCode" : "33130" }
+    }
+  },
+  "providerSignatureIndicator" : "Y",
+  "assignmentParticipationCode" : "A",
+  "assignmentCertificationIndicator" : "Y",
+  "releaseOfInformationCode" : "I",
+  "clearinghouseTraceNumber" : "17312345600010236",
+  "billingProvider" : {
+    "entityRole" : "BILLING_PROVIDER",
+    "entityType" : "BUSINESS",
+    "identificationType" : "NPI",
+    "identifier" : "9876543210",
+    "taxId" : "587654321",
+    "taxIdType" : "EIN",
+    "lastNameOrOrgName" : "Ben Kildare Service",
+    "address" : { "line" : "234 SEAWAY ST", "city" : "MIAMI", "stateCode" : "FL", "zipCode" : "33111" },
+    "providerTaxonomy" : { "subType" : "PROVIDER_TAXONOMY", "code" : "207R00000X", "desc" : "Internal Medicine" }
+  },
+  "diags" : [ {
+    "subType" : "ICD_10_PRINCIPAL",
+    "code" : "Z0000",
+    "desc" : "Encounter for general adult medical examination without abnormal findings",
+    "formattedCode" : "Z00.00"
+  } ],
+  "serviceLines" : [ {
+    "chargeAmount" : 320.00,
+    "serviceDateFrom" : "2026-05-27",
+    "unitType" : "UNIT",
+    "unitCount" : 1,
+    "procedure" : { "subType" : "CPT", "code" : "82306", "desc" : "Vitamin D; 25 hydroxy, includes fraction(s), if performed" },
+    "diagPointers" : [ 1 ],
+    "diags" : [ { "subType" : "ICD_10_PRINCIPAL", "code" : "Z0000", "desc" : "Encounter for general adult medical examination without abnormal findings", "formattedCode" : "Z00.00" } ]
+  } ],
+  "transaction" : {
+    "id" : "15b08241b3d2808bc2c0fe00",
+    "controlNumber" : "0041",
+    "transactionType" : "PROF",
+    "hierarchicalStructureCode" : "0019",
+    "purposeCode" : "00",
+    "originatorApplicationTransactionId" : "244829",
+    "creationDate" : "2026-05-29",
+    "creationTime" : "09:44:00",
+    "claimOrEncounterIdentifierType" : "CHARGEABLE",
+    "transactionSetIdentifierCode" : "837",
+    "implementationConventionReference" : "005010X222",
+    "sender" : { "entityRole" : "SUBMITTER", "entityType" : "BUSINESS", "identificationType" : "ETIN", "identifier" : "TGJ23", "lastNameOrOrgName" : "PREMIER BILLING SERVICE" },
+    "receiver" : { "entityRole" : "RECEIVER", "entityType" : "BUSINESS", "identificationType" : "ETIN", "identifier" : "66783JJT", "lastNameOrOrgName" : "KEY INSURANCE COMPANY" },
+    "creationDateTime" : "2026-05-29T09:44:00"
+  }
+}

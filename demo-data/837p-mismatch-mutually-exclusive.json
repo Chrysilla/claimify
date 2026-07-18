@@ -1,0 +1,103 @@
+{
+  "id" : "26c19362c4e3919cd3d1fe05",
+  "objectType" : "CLAIM",
+  "patientControlNumber" : "31009987",
+  "chargeAmount" : 1400.00,
+  "_mismatch" : {
+    "type" : "MUTUALLY_EXCLUSIVE_PROCEDURES",
+    "severity" : "HIGH",
+    "description" : "Two mutually exclusive surgical approaches are billed for the same organ on the same date: CPT 44970 (laparoscopic appendectomy) and CPT 44950 (open appendectomy). An appendix is removed by exactly one approach in a single session; NCCI lists these as a mutually exclusive pair (modifier indicator 1, but no clinical scenario supports both on the same appendix same day).",
+    "offendingProcedureCodes" : [ "44970", "44950" ],
+    "editType" : "NCCI Mutually Exclusive",
+    "modifierIndicator" : "1"
+  },
+  "facilityCode" : { "subType" : "PLACE_OF_SERVICE", "code" : "21", "desc" : "Inpatient Hospital" },
+  "placeOfServiceType" : "INPATIENT_HOSPITAL",
+  "frequencyCode" : { "subType" : "FREQUENCY_CODE", "code" : "1", "desc" : "Original claim" },
+  "serviceDateFrom" : "2026-07-05",
+  "serviceDateTo" : "2026-07-05",
+  "subscriber" : {
+    "payerResponsibilitySequence" : "PRIMARY",
+    "groupOrPolicyNumber" : "5573-AX",
+    "claimFilingIndicatorCode" : "CI",
+    "insurancePlanType" : "COMMERCIAL",
+    "person" : {
+      "entityRole" : "INSURED_SUBSCRIBER",
+      "entityType" : "INDIVIDUAL",
+      "identificationType" : "MEMBER_ID",
+      "identifier" : "DO00220033445",
+      "lastNameOrOrgName" : "Okafor",
+      "firstName" : "Daniel",
+      "birthDate" : "1995-11-02",
+      "gender" : "MALE"
+    },
+    "payer" : { "entityRole" : "PAYER", "entityType" : "BUSINESS", "identificationType" : "PAYOR_ID", "identifier" : "999996666", "lastNameOrOrgName" : "KEY INSURANCE COMPANY" }
+  },
+  "patient" : {
+    "relationshipType" : "SELF",
+    "person" : {
+      "entityRole" : "PATIENT",
+      "entityType" : "INDIVIDUAL",
+      "lastNameOrOrgName" : "Okafor",
+      "firstName" : "Daniel",
+      "birthDate" : "1995-11-02",
+      "gender" : "MALE",
+      "address" : { "line" : "608 MAPLE ST", "city" : "JACKSONVILLE", "stateCode" : "FL", "zipCode" : "32204" }
+    }
+  },
+  "providerSignatureIndicator" : "Y",
+  "assignmentParticipationCode" : "A",
+  "assignmentCertificationIndicator" : "Y",
+  "releaseOfInformationCode" : "I",
+  "clearinghouseTraceNumber" : "17312345600010279",
+  "billingProvider" : {
+    "entityRole" : "BILLING_PROVIDER",
+    "entityType" : "BUSINESS",
+    "identificationType" : "NPI",
+    "identifier" : "9876543210",
+    "taxId" : "587654321",
+    "taxIdType" : "EIN",
+    "lastNameOrOrgName" : "Riverside Surgical Group",
+    "address" : { "line" : "1900 RIVER RD", "city" : "JACKSONVILLE", "stateCode" : "FL", "zipCode" : "32204" },
+    "providerTaxonomy" : { "subType" : "PROVIDER_TAXONOMY", "code" : "208600000X", "desc" : "Surgery" }
+  },
+  "diags" : [ {
+    "subType" : "ICD_10_PRINCIPAL",
+    "code" : "K3580",
+    "desc" : "Unspecified acute appendicitis",
+    "formattedCode" : "K35.80"
+  } ],
+  "serviceLines" : [ {
+    "chargeAmount" : 700.00,
+    "serviceDateFrom" : "2026-07-05",
+    "unitType" : "UNIT",
+    "unitCount" : 1,
+    "procedure" : { "subType" : "CPT", "code" : "44970", "desc" : "Laparoscopy, surgical, appendectomy" },
+    "diagPointers" : [ 1 ],
+    "diags" : [ { "subType" : "ICD_10_PRINCIPAL", "code" : "K3580", "desc" : "Unspecified acute appendicitis", "formattedCode" : "K35.80" } ]
+  }, {
+    "chargeAmount" : 700.00,
+    "serviceDateFrom" : "2026-07-05",
+    "unitType" : "UNIT",
+    "unitCount" : 1,
+    "procedure" : { "subType" : "CPT", "code" : "44950", "desc" : "Appendectomy (open)" },
+    "diagPointers" : [ 1 ],
+    "diags" : [ { "subType" : "ICD_10_PRINCIPAL", "code" : "K3580", "desc" : "Unspecified acute appendicitis", "formattedCode" : "K35.80" } ]
+  } ],
+  "transaction" : {
+    "id" : "26c19352c4e3919cd3d1fe00",
+    "controlNumber" : "0042",
+    "transactionType" : "PROF",
+    "hierarchicalStructureCode" : "0019",
+    "purposeCode" : "00",
+    "originatorApplicationTransactionId" : "244842",
+    "creationDate" : "2026-07-07",
+    "creationTime" : "11:29:00",
+    "claimOrEncounterIdentifierType" : "CHARGEABLE",
+    "transactionSetIdentifierCode" : "837",
+    "implementationConventionReference" : "005010X222",
+    "sender" : { "entityRole" : "SUBMITTER", "entityType" : "BUSINESS", "identificationType" : "ETIN", "identifier" : "TGJ23", "lastNameOrOrgName" : "PREMIER BILLING SERVICE" },
+    "receiver" : { "entityRole" : "RECEIVER", "entityType" : "BUSINESS", "identificationType" : "ETIN", "identifier" : "66783JJT", "lastNameOrOrgName" : "KEY INSURANCE COMPANY" },
+    "creationDateTime" : "2026-07-07T11:29:00"
+  }
+}

@@ -1,0 +1,143 @@
+{
+  "id" : "bf5a2cf3615dc2ac26dca97e",
+  "objectType" : "CLAIM",
+  "patientControlNumber" : "31006078",
+  "chargeAmount" : 3200.00,
+  "_mismatch" : {
+    "type" : "PLACE_OF_SERVICE_PROCEDURE_MISMATCH",
+    "description" : "Major inpatient surgical procedure (CPT 27447 - total knee arthroplasty) billed with Place of Service 11 (Office). This procedure requires an inpatient hospital (POS 21) or ambulatory surgical center (POS 24) setting.",
+    "offendingProcedureCodes" : [ "27447" ],
+    "reportedPlaceOfService" : "11",
+    "expectedPlaceOfService" : [ "21", "24" ]
+  },
+  "facilityCode" : {
+    "subType" : "PLACE_OF_SERVICE",
+    "code" : "11",
+    "desc" : "Office"
+  },
+  "placeOfServiceType" : "OFFICE",
+  "frequencyCode" : {
+    "subType" : "FREQUENCY_CODE",
+    "code" : "1",
+    "desc" : "Original claim"
+  },
+  "serviceDateFrom" : "2026-07-01",
+  "serviceDateTo" : "2026-07-01",
+  "subscriber" : {
+    "payerResponsibilitySequence" : "PRIMARY",
+    "groupOrPolicyNumber" : "3345-WD",
+    "claimFilingIndicatorCode" : "CI",
+    "insurancePlanType" : "COMMERCIAL",
+    "person" : {
+      "entityRole" : "INSURED_SUBSCRIBER",
+      "entityType" : "INDIVIDUAL",
+      "identificationType" : "MEMBER_ID",
+      "identifier" : "GW00443322110",
+      "lastNameOrOrgName" : "Walsh",
+      "firstName" : "Gregory",
+      "birthDate" : "1957-02-05",
+      "gender" : "MALE"
+    },
+    "payer" : {
+      "entityRole" : "PAYER",
+      "entityType" : "BUSINESS",
+      "identificationType" : "PAYOR_ID",
+      "identifier" : "999996666",
+      "lastNameOrOrgName" : "KEY INSURANCE COMPANY"
+    }
+  },
+  "patient" : {
+    "relationshipType" : "SELF",
+    "person" : {
+      "entityRole" : "PATIENT",
+      "entityType" : "INDIVIDUAL",
+      "lastNameOrOrgName" : "Walsh",
+      "firstName" : "Gregory",
+      "birthDate" : "1957-02-05",
+      "gender" : "MALE",
+      "address" : {
+        "line" : "830 PINE HILL RD",
+        "city" : "GAINESVILLE",
+        "stateCode" : "FL",
+        "zipCode" : "32601"
+      }
+    }
+  },
+  "providerSignatureIndicator" : "Y",
+  "assignmentParticipationCode" : "A",
+  "assignmentCertificationIndicator" : "Y",
+  "releaseOfInformationCode" : "I",
+  "clearinghouseTraceNumber" : "17312345600009988",
+  "billingProvider" : {
+    "entityRole" : "BILLING_PROVIDER",
+    "entityType" : "BUSINESS",
+    "identificationType" : "NPI",
+    "identifier" : "9876543210",
+    "taxId" : "587654321",
+    "taxIdType" : "EIN",
+    "lastNameOrOrgName" : "Riverside Orthopedics",
+    "address" : {
+      "line" : "1900 RIVER RD",
+      "city" : "GAINESVILLE",
+      "stateCode" : "FL",
+      "zipCode" : "32601"
+    },
+    "providerTaxonomy" : {
+      "subType" : "PROVIDER_TAXONOMY",
+      "code" : "207X00000X",
+      "desc" : "Orthopaedic Surgery"
+    }
+  },
+  "diags" : [ {
+    "subType" : "ICD_10_PRINCIPAL",
+    "code" : "M1711",
+    "desc" : "Unilateral primary osteoarthritis, right knee",
+    "formattedCode" : "M17.11"
+  } ],
+  "serviceLines" : [ {
+    "chargeAmount" : 3200.00,
+    "serviceDateFrom" : "2026-07-01",
+    "unitType" : "UNIT",
+    "unitCount" : 1,
+    "procedure" : {
+      "subType" : "CPT",
+      "code" : "27447",
+      "desc" : "Total knee arthroplasty (total knee replacement)"
+    },
+    "diagPointers" : [ 1 ],
+    "diags" : [ {
+      "subType" : "ICD_10_PRINCIPAL",
+      "code" : "M1711",
+      "desc" : "Unilateral primary osteoarthritis, right knee",
+      "formattedCode" : "M17.11"
+    } ]
+  } ],
+  "transaction" : {
+    "id" : "bf5a2ce3615dc2ac26dca800",
+    "controlNumber" : "0035",
+    "transactionType" : "PROF",
+    "hierarchicalStructureCode" : "0019",
+    "purposeCode" : "00",
+    "originatorApplicationTransactionId" : "244751",
+    "creationDate" : "2026-07-03",
+    "creationTime" : "16:20:00",
+    "claimOrEncounterIdentifierType" : "CHARGEABLE",
+    "transactionSetIdentifierCode" : "837",
+    "implementationConventionReference" : "005010X222",
+    "sender" : {
+      "entityRole" : "SUBMITTER",
+      "entityType" : "BUSINESS",
+      "identificationType" : "ETIN",
+      "identifier" : "TGJ23",
+      "lastNameOrOrgName" : "PREMIER BILLING SERVICE"
+    },
+    "receiver" : {
+      "entityRole" : "RECEIVER",
+      "entityType" : "BUSINESS",
+      "identificationType" : "ETIN",
+      "identifier" : "66783JJT",
+      "lastNameOrOrgName" : "KEY INSURANCE COMPANY"
+    },
+    "creationDateTime" : "2026-07-03T16:20:00"
+  }
+}
