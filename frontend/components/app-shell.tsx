@@ -26,7 +26,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <Stethoscope size={22} />
           </span>
           <div>
-            <p className="font-semibold text-white">CareFlow</p>
+            <p className="font-semibold text-white">Claimify</p>
             <p className="text-xs text-slate-400">Clinical review workspace</p>
           </div>
         </div>

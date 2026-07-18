@@ -1,6 +1,6 @@
-# CareFlow healthcare AI starter
+# Claimify healthcare AI starter
 
-CareFlow is a polished full-stack starter for one-day AI healthcare hackathons. It provides a credible clinical review workflow, fictional patient data, provider-neutral AI, explicit human approval, and deployment-ready frontend/backend projects—without requiring a paid API or cloud database.
+Claimify is a polished full-stack starter for one-day AI healthcare hackathons. It provides a credible clinical review workflow, fictional patient data, provider-neutral AI, explicit human approval, and deployment-ready frontend/backend projects—without requiring a paid API or cloud database.
 
 The included demo catches a likely lumbar MRI authorization issue before submission: the clinical note mentions conservative treatment but omits the duration required by a fictional payer rule.
 
@@ -48,7 +48,7 @@ cp backend/.env.example backend/.env
 
 | Variable | Default | Purpose |
 |---|---|---|
-| `DATABASE_URL` | `sqlite:///./careflow.db` | SQLAlchemy database URL; use a Supabase Postgres URL later |
+| `DATABASE_URL` | `sqlite:///./claimify.db` | SQLAlchemy database URL; use a Supabase Postgres URL later |
 | `FRONTEND_ORIGIN` | `http://localhost:3000` | Allowed browser origin |
 | `USE_MOCK_AI` | `true` | Forces deterministic no-key behavior |
 | `AI_PROVIDER` | `mock` | `mock`, `openai`, or `anthropic` |

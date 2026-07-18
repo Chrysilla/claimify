@@ -2,7 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { AppShell } from "@/components/app-shell";
 export const metadata: Metadata = {
-  title: "CareFlow | Clinical review",
+  title: "Claimify | Clinical review",
   description: "AI-assisted healthcare workflow starter",
 };
 export default function RootLayout({

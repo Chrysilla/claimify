@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: careflow-api
+    name: claimify-api
     runtime: python
     rootDir: backend
     buildCommand: pip install uv && uv sync --frozen --no-dev

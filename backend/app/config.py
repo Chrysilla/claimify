@@ -3,8 +3,8 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    app_name: str = "CareFlow API"
-    database_url: str = "sqlite:///./careflow.db"
+    app_name: str = "Claimify API"
+    database_url: str = "sqlite:///./claimify.db"
     frontend_origin: str = "http://localhost:3000"
     use_mock_ai: bool = True
     ai_provider: str = "mock"

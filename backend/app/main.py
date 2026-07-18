@@ -29,7 +29,7 @@ async def lifespan(_: FastAPI):
     yield
 
 
-app = FastAPI(title="CareFlow API", version="0.1.0", lifespan=lifespan)
+app = FastAPI(title="Claimify API", version="0.1.0", lifespan=lifespan)
 settings = get_settings()
 app.add_middleware(
     CORSMiddleware,
@@ -58,7 +58,7 @@ def missing_patient():
 def health():
     return {
         "status": "ok",
-        "service": "careflow-api",
+        "service": "claimify-api",
         "mock_ai": isinstance(
             get_ai_provider(), __import__("app.ai.mock", fromlist=["MockAIProvider"]).MockAIProvider
         ),

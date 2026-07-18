@@ -1,6 +1,6 @@
-# CareFlow agent guide
+# Claimify agent guide
 
-CareFlow is a reusable AI healthcare workflow starter. It demonstrates pre-submission documentation review using fully fictional records and deterministic mock AI.
+Claimify is a reusable AI healthcare workflow starter. It demonstrates pre-submission documentation review using fully fictional records and deterministic mock AI.
 
 ## Architecture
 
