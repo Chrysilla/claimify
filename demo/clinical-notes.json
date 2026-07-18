@@ -1,0 +1,5 @@
+[
+  {"patient_id":"maya-thompson","id":"note-maya-2026-07-11","title":"Orthopedics follow-up","date":"2026-07-11","author":"Dr. Priya Shah","text":"Persistent low back pain radiating to the left leg. Patient has tried physical therapy and NSAIDs without adequate relief. Lumbar MRI requested."},
+  {"patient_id":"daniel-cho","id":"note-daniel-2026-07-02","title":"Primary care follow-up","date":"2026-07-02","author":"Dr. Leo Grant","text":"A1c improved. Continue current therapy and repeat labs in three months."},
+  {"patient_id":"elena-rodriguez","id":"note-elena-2026-07-15","title":"Sports medicine consult","date":"2026-07-15","author":"Dr. Nina Park","text":"Persistent right knee pain and swelling after injury. Arthroscopy evaluation planned."}
+]

@@ -1,0 +1,5 @@
+[
+  {"patient_id":"maya-thompson","member_id":"NSH-DEMO-1042","plan":"Northstar Choice PPO","authorization":"Required","payer_rule_ids":["rule-northstar-lumbar-mri"]},
+  {"patient_id":"daniel-cho","member_id":"HC-DEMO-883","plan":"HarborCare Gold","authorization":"Not required","payer_rule_ids":[]},
+  {"patient_id":"elena-rodriguez","member_id":"SM-DEMO-451","plan":"Summit Standard","authorization":"Procedure dependent","payer_rule_ids":["rule-summit-laterality"]}
+]

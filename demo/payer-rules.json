@@ -1,0 +1,4 @@
+[
+  {"id":"rule-northstar-lumbar-mri","title":"Lumbar MRI medical necessity","payer":"Northstar Health","requirement":"Document at least six weeks of conservative therapy, including dates and response.","fictional":true},
+  {"id":"rule-summit-laterality","title":"Diagnosis specificity","payer":"Summit Mutual","requirement":"Diagnosis laterality must match the requested procedure.","fictional":true}
+]

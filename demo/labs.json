@@ -1,0 +1,4 @@
+[
+  {"patient_id":"maya-thompson","id":"lab-maya-cr","name":"Creatinine","value":"0.8","unit":"mg/dL","date":"2026-07-10"},
+  {"patient_id":"daniel-cho","id":"lab-daniel-a1c","name":"A1c","value":"7.4","unit":"%","date":"2026-07-02"}
+]

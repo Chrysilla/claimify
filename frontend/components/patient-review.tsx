@@ -1,3 +1,69 @@
-"use client";import { useState } from "react";import { Sparkles } from "lucide-react";import { api } from "@/lib/api";import type { Finding } from "@/lib/types";import { AIReviewPanel } from "./ai-review-panel";import { Button } from "./ui";
-export function PatientReview({patientId,initial}:{patientId:string;initial:Finding[]}){const [findings,setFindings]=useState(initial);const [busy,setBusy]=useState(false);async function run(){setBusy(true);try{setFindings(await api.review(patientId))}finally{setBusy(false)}}async function action(f:Finding,type:"approve"|"edit"|"reject",value?:string){const updated=type==="approve"?await api.approve(f.id):type==="edit"?await api.edit(f.id,value||f.recommended_action):await api.reject(f.id,value||"Rejected by reviewer");setFindings(x=>x.map(item=>item.id===updated.id?updated:item))}return <section className="space-y-4"><div className="flex items-center justify-between"><div><h2 className="text-xl font-bold">AI findings</h2><p className="text-sm text-slate-500">Suggestions require human approval.</p></div><Button onClick={run} disabled={busy}><Sparkles size={16}/>{busy?"Reviewing…":"Run AI review"}</Button></div>{findings.map(f=><AIReviewPanel key={f.id} finding={f} onAction={(type,value)=>action(f,type,value)}/>)}{!findings.length&&<div className="rounded-xl border border-dashed border-slate-300 bg-white p-8 text-center text-sm text-slate-500">No findings yet. Run the review against current source data and payer rules.</div>}</section>}
-
+"use client";
+import { useState } from "react";
+import { Sparkles } from "lucide-react";
+import { api } from "@/lib/api";
+import type { Finding } from "@/lib/types";
+import { AIReviewPanel } from "./ai-review-panel";
+import { Button } from "./ui";
+export function PatientReview({
+  patientId,
+  initial,
+}: {
+  patientId: string;
+  initial: Finding[];
+}) {
+  const [findings, setFindings] = useState(initial);
+  const [busy, setBusy] = useState(false);
+  async function run() {
+    setBusy(true);
+    try {
+      setFindings(await api.review(patientId));
+    } finally {
+      setBusy(false);
+    }
+  }
+  async function action(
+    f: Finding,
+    type: "approve" | "edit" | "reject",
+    value?: string,
+  ) {
+    const updated =
+      type === "approve"
+        ? await api.approve(f.id)
+        : type === "edit"
+          ? await api.edit(f.id, value || f.recommended_action)
+          : await api.reject(f.id, value || "Rejected by reviewer");
+    setFindings((x) =>
+      x.map((item) => (item.id === updated.id ? updated : item)),
+    );
+  }
+  return (
+    <section className="space-y-4">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-xl font-bold">AI findings</h2>
+          <p className="text-sm text-slate-500">
+            Suggestions require human approval.
+          </p>
+        </div>
+        <Button onClick={run} disabled={busy}>
+          <Sparkles size={16} />
+          {busy ? "Reviewing…" : "Run AI review"}
+        </Button>
+      </div>
+      {findings.map((f) => (
+        <AIReviewPanel
+          key={f.id}
+          finding={f}
+          onAction={(type, value) => action(f, type, value)}
+        />
+      ))}
+      {!findings.length && (
+        <div className="rounded-xl border border-dashed border-slate-300 bg-white p-8 text-center text-sm text-slate-500">
+          No findings yet. Run the review against current source data and payer
+          rules.
+        </div>
+      )}
+    </section>
+  );
+}

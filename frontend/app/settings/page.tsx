@@ -1,3 +1,45 @@
-import { Bot, Database, ShieldCheck } from "lucide-react";import { Card, Badge } from "@/components/ui";
-export default function Settings(){return <div className="mx-auto max-w-4xl"><h1 className="text-3xl font-bold">Settings</h1><p className="mb-6 mt-2 text-slate-600">Environment and safety defaults for this starter.</p><div className="space-y-4">{[[Bot,"AI provider","Deterministic mock provider","No API key required"],[Database,"Database","Local SQLite","DATABASE_URL can target Postgres"],[ShieldCheck,"Human review","Required","AI cannot update workflow state"]].map(([Icon,title,value,detail])=><Card className="flex items-center gap-4 p-5" key={String(title)}><span className="grid h-11 w-11 place-items-center rounded-lg bg-teal-50 text-teal-700"><Icon size={21}/></span><div className="flex-1"><p className="font-semibold">{String(title)}</p><p className="text-sm text-slate-500">{String(detail)}</p></div><Badge tone="teal">{String(value)}</Badge></Card>)}</div></div>}
-
+import { Bot, Database, ShieldCheck } from "lucide-react";
+import { Card, Badge } from "@/components/ui";
+export default function Settings() {
+  return (
+    <div className="mx-auto max-w-4xl">
+      <h1 className="text-3xl font-bold">Settings</h1>
+      <p className="mb-6 mt-2 text-slate-600">
+        Environment and safety defaults for this starter.
+      </p>
+      <div className="space-y-4">
+        {[
+          [
+            Bot,
+            "AI provider",
+            "Deterministic mock provider",
+            "No API key required",
+          ],
+          [
+            Database,
+            "Database",
+            "Local SQLite",
+            "DATABASE_URL can target Postgres",
+          ],
+          [
+            ShieldCheck,
+            "Human review",
+            "Required",
+            "AI cannot update workflow state",
+          ],
+        ].map(([Icon, title, value, detail]) => (
+          <Card className="flex items-center gap-4 p-5" key={String(title)}>
+            <span className="grid h-11 w-11 place-items-center rounded-lg bg-teal-50 text-teal-700">
+              <Icon size={21} />
+            </span>
+            <div className="flex-1">
+              <p className="font-semibold">{String(title)}</p>
+              <p className="text-sm text-slate-500">{String(detail)}</p>
+            </div>
+            <Badge tone="teal">{String(value)}</Badge>
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
+}

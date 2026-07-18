@@ -8,6 +8,7 @@ dependencies = [
   "sqlalchemy>=2.0,<3",
   "pydantic-settings>=2.10,<3",
   "httpx>=0.28,<1",
+  "psycopg[binary]>=3.2,<4",
 ]
 
 [dependency-groups]
@@ -20,4 +21,3 @@ testpaths = ["tests"]
 [tool.ruff]
 line-length = 100
 target-version = "py312"
-

@@ -1,0 +1,5 @@
+[
+  {"id":"maya-thompson","name":"Maya Thompson","date_of_birth":"1979-02-18","primary_condition":"Lumbar radiculopathy","payer":"Northstar Health","workflow_status":"authorization review","risk_level":"high","diagnoses":[{"code":"M54.16","name":"Lumbar radiculopathy"}],"medications":[{"name":"Naproxen","dose":"500 mg","frequency":"twice daily"}]},
+  {"id":"daniel-cho","name":"Daniel Cho","date_of_birth":"1962-08-09","primary_condition":"Type 2 diabetes","payer":"HarborCare","workflow_status":"monitoring","risk_level":"medium","diagnoses":[{"code":"E11.9","name":"Type 2 diabetes"}],"medications":[{"name":"Metformin","dose":"1000 mg","frequency":"twice daily"}]},
+  {"id":"elena-rodriguez","name":"Elena Rodriguez","date_of_birth":"1991-11-23","primary_condition":"Right knee pain","payer":"Summit Mutual","workflow_status":"coding review","risk_level":"medium","diagnoses":[{"code":"M25.569","name":"Pain in unspecified knee"}],"medications":[{"name":"Ibuprofen","dose":"400 mg","frequency":"as needed"}]}
+]

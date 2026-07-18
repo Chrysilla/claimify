@@ -1,2 +1,13 @@
-"use client";import { Button } from "@/components/ui";export default function Error({reset}:{reset:()=>void}){return <div className="mx-auto max-w-lg rounded-xl border bg-white p-8 text-center"><h2 className="text-xl font-semibold">We couldn’t load this workspace</h2><p className="my-3 text-sm text-slate-600">Confirm the API is running, then try again.</p><Button onClick={reset}>Try again</Button></div>}
-
+"use client";
+import { Button } from "@/components/ui";
+export default function Error({ reset }: { reset: () => void }) {
+  return (
+    <div className="mx-auto max-w-lg rounded-xl border bg-white p-8 text-center">
+      <h2 className="text-xl font-semibold">We couldn’t load this workspace</h2>
+      <p className="my-3 text-sm text-slate-600">
+        Confirm the API is running, then try again.
+      </p>
+      <Button onClick={reset}>Try again</Button>
+    </div>
+  );
+}

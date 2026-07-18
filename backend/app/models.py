@@ -1,4 +1,4 @@
-from datetime import date, datetime
+from datetime import UTC, date, datetime
 from typing import Any
 from uuid import uuid4
 from sqlalchemy import JSON, Boolean, Date, DateTime, Float, ForeignKey, String, Text
@@ -22,7 +22,9 @@ class Patient(Base):
     notes: Mapped[list[dict[str, Any]]] = mapped_column(JSON, default=list)
     insurance: Mapped[dict[str, Any]] = mapped_column(JSON, default=dict)
     payer_rules: Mapped[list[dict[str, Any]]] = mapped_column(JSON, default=list)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=lambda: datetime.now(UTC)
+    )
 
 
 class Finding(Base):
@@ -36,4 +38,6 @@ class Finding(Base):
     recommended_action: Mapped[str] = mapped_column(Text)
     status: Mapped[str] = mapped_column(default="pending")
     review_note: Mapped[str | None] = mapped_column(Text, nullable=True)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=lambda: datetime.now(UTC)
+    )

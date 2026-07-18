@@ -9,8 +9,8 @@ def get_ai_provider(settings: Settings | None = None) -> AIProvider:
     settings = settings or get_settings()
     if settings.use_mock_ai:
         return MockAIProvider()
-    if settings.ai_provider == "openai" and settings.openai_api_key:
-        return OpenAIProvider()
-    if settings.ai_provider == "anthropic" and settings.anthropic_api_key:
-        return AnthropicProvider()
+    if settings.ai_provider == "openai" and settings.openai_api_key and settings.ai_model:
+        return OpenAIProvider(settings.openai_api_key, settings.ai_model)
+    if settings.ai_provider == "anthropic" and settings.anthropic_api_key and settings.ai_model:
+        return AnthropicProvider(settings.anthropic_api_key, settings.ai_model)
     return MockAIProvider()
