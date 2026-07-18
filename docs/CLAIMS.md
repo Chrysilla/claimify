@@ -25,12 +25,26 @@ The whole app is Next.js — UI, API routes, SQLite, and AI — with no separate
    - **Layer 2 — content & coding** (deterministic): ICD-10-CM/CPT formats, NPI
      check digits, DOS vs the documented encounter period, place-of-service vs
      encounter setting, payer eligibility on DOS, provider registry, timely filing.
-   - **Layer 3 — clinical evidence** (agentic): a Claude Agent SDK agent reads the
-     claim, clinical note, ambient transcript, and FHIR context via MCP tools and
-     reports findings (`report_finding`) with verbatim evidence excerpts, then a
-     final acceptance probability (`report_confidence`).
-3. **Live streaming feedback** — findings stream to the UI over SSE as each layer
-   runs; each finding is a reviewable card (approve / edit / reject).
+   - **Layer 3 — clinical evidence** (agentic): a **map-reduce of specialist
+     agents** that each cross-check the claim (form data) against the source data
+     and the rules they own, then a reduce step dedupes their findings and blends
+     their confidences. Each finding is tagged with the specialist that raised it
+     and names the exact claim field.
+     - **Correct coding (NCCI)** — PTP/bundling, mutually exclusive procedures,
+       modifier 25/59 appropriateness, add-on codes, MUEs. Consults only the NCCI
+       Policy Manual chapters the claim's CPT codes route to (deterministic
+       `chaptersForCpts()` router → 1–3 of 14 chapters instead of all 14).
+     - **Medical necessity** — is every billed service / pointed diagnosis
+       supported by the note, transcript, and FHIR context? (rules M-201…M-206).
+     - **Diagnosis quality** — ICD-10 specificity, and laterality consistency
+       between a diagnosis and the RT/LT modifier on the lines that point to it.
+     - Each specialist runs in its own Claude Agent SDK session (in parallel),
+       reports findings (`report_finding`) with verbatim evidence and a confidence
+       (`report_confidence`), and falls back independently to a deterministic mock.
+3. **Live streaming feedback** — a specialist strip under the clinical step shows
+   each agent going running → pass/fail; findings stream to the UI over SSE as
+   each layer/specialist runs; each finding is a reviewable card (approve / edit /
+   reject) badged with its author.
 4. **Confidence score** — the probability Medicare accepts the claim as billed,
    blending the agent's clinical assessment with deterministic caps (a structural
    error caps acceptance at ~10%: the claim would reject at the clearinghouse).
@@ -137,7 +151,11 @@ lib/claims/db.ts                 better-sqlite3 schema/singleton
 lib/claims/overlays.ts           SNOMED→ICD-10/CPT maps, claim builder, NPI/MBI gen
 lib/claims/validate.ts           Layers 1–2 deterministic checks
 lib/claims/rules.ts              Rule catalog loader (rules/837p-rules.json)
-lib/claims/agent.ts              Agent SDK runner (MCP tools) + mock fallback
+lib/claims/ncci.ts               NCCI manual search/read + CPT→chapter router
+lib/claims/agent.ts              Layer-3 entry point (re-exports agents/orchestrator)
+lib/claims/agents/orchestrator.ts  Clinical map-reduce: run specialists, dedupe, blend
+lib/claims/agents/shared.ts      Shared SDK runner, data tools, encounter docs
+lib/claims/agents/{coding,necessity,diagnosis}.ts  The three specialists (+ mocks)
 lib/claims/import.ts             PDF → Claim837P extractor (Anthropic SDK) + mock
 lib/claims/jobs.ts               Job orchestrator + SSE event bus
 lib/claims/scoring.ts            Confidence blending + structural caps

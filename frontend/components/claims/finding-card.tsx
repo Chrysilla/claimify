@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Check, Pencil, Quote, X } from "lucide-react";
 import { claimsApi } from "@/lib/claims/client-api";
 import type { ClaimFinding, FindingSeverity } from "@/lib/claims/types";
+import { SPECIALIST_LABELS } from "@/lib/claims/types";
 import { Badge, Button, Card } from "@/components/ui";
 
 const SEVERITY_TONE: Record<FindingSeverity, "rose" | "amber" | "blue"> = {
@@ -48,6 +49,11 @@ export function FindingCard({
         <span className="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] font-semibold text-slate-600">
           {LAYER_LABEL[finding.layer] ?? finding.layer}
         </span>
+        {finding.agent && (
+          <span className="rounded bg-teal-50 px-1.5 py-0.5 text-[11px] font-semibold text-teal-700">
+            {SPECIALIST_LABELS[finding.agent]}
+          </span>
+        )}
         {finding.rule_id && (
           <span className="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] text-slate-600">
             {finding.rule_id}

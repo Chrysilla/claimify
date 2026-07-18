@@ -29,7 +29,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </span>
           <div>
             <p className="font-semibold text-white">Claimify</p>
-            <p className="text-xs text-slate-400">Clinical review workspace</p>
+            <p className="text-xs text-slate-400">Claim review workspace</p>
           </div>
         </div>
         <nav className="space-y-1">

@@ -8,6 +8,7 @@ import type {
   ConfidenceReport,
   JobEvent,
   JobStatus,
+  SpecialistId,
   ValidationJob,
 } from "./types";
 import {
@@ -91,6 +92,7 @@ function rowToFinding(row: Record<string, unknown>): ClaimFinding {
     severity: row.severity as ClaimFinding["severity"],
     loop_segment: (row.loop_segment as string) ?? null,
     field: (row.field as string) ?? null,
+    agent: (row.agent as SpecialistId) ?? null,
     issue: row.issue as string,
     why_it_matters: row.why_it_matters as string,
     evidence: JSON.parse((row.evidence_json as string) || "[]"),
@@ -178,11 +180,12 @@ function insertFinding(
   };
   getDb()
     .prepare(
-      `INSERT INTO findings (id, claim_id, job_id, layer, rule_id, severity, loop_segment, field, issue, why_it_matters, evidence_json, recommended_fix, status, review_note, created_at)
-       VALUES (@id, @claim_id, @job_id, @layer, @rule_id, @severity, @loop_segment, @field, @issue, @why_it_matters, @evidence_json, @recommended_fix, @status, @review_note, @created_at)`,
+      `INSERT INTO findings (id, claim_id, job_id, layer, rule_id, severity, loop_segment, field, agent, issue, why_it_matters, evidence_json, recommended_fix, status, review_note, created_at)
+       VALUES (@id, @claim_id, @job_id, @layer, @rule_id, @severity, @loop_segment, @field, @agent, @issue, @why_it_matters, @evidence_json, @recommended_fix, @status, @review_note, @created_at)`,
     )
     .run({
       ...finding,
+      agent: finding.agent ?? null,
       evidence_json: JSON.stringify(finding.evidence),
     } as unknown as Record<string, unknown>);
   return finding;
@@ -313,6 +316,10 @@ async function runJob(
     deterministicFindings: [...all],
     addFinding: add,
     emitActivity: (text) => emit(jobId, { type: "agent_activity", text }),
+    emitAgentStart: (agent, label) =>
+      emit(jobId, { type: "agent_start", agent, label }),
+    emitAgentDone: (agent, state, errors, warnings) =>
+      emit(jobId, { type: "agent_done", agent, state, errors, warnings }),
   });
   if (engineUsed !== engine) setJobStatus(jobId, "clinical", engineUsed);
   const m = layerCounts(all, "clinical");

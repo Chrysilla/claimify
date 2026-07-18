@@ -132,6 +132,16 @@ export type ClaimDetail = {
 export type FindingSeverity = "error" | "warning" | "info";
 export type FindingLayer = "structural" | "content" | "clinical";
 
+// The clinical layer runs as a parallel map-reduce of specialist agents; each
+// finding it raises is tagged with the specialist that found it.
+export type SpecialistId = "coding" | "necessity" | "diagnosis";
+
+export const SPECIALIST_LABELS: Record<SpecialistId, string> = {
+  coding: "Correct coding (NCCI)",
+  necessity: "Medical necessity",
+  diagnosis: "Diagnosis quality",
+};
+
 export type FindingEvidence = {
   source_type: string; // note | transcript | fhir | claim | rule | eligibility | registry
   source_id: string;
@@ -148,6 +158,7 @@ export type ClaimFinding = {
   severity: FindingSeverity;
   loop_segment: string | null; // e.g. "2010BA NM109"
   field: string | null;
+  agent?: SpecialistId | null; // which clinical specialist raised it (absent for deterministic layers)
   issue: string;
   why_it_matters: string;
   evidence: FindingEvidence[];
@@ -199,7 +210,15 @@ export type JobEvent =
       warnings?: number;
     }
   | { type: "finding"; finding: ClaimFinding }
-  | { type: "agent_activity"; text: string }
+  | { type: "agent_start"; agent: SpecialistId; label: string }
+  | {
+      type: "agent_done";
+      agent: SpecialistId;
+      state: "pass" | "fail" | "skipped";
+      errors: number;
+      warnings: number;
+    }
+  | { type: "agent_activity"; text: string; agent?: SpecialistId }
   | { type: "confidence"; confidence: ConfidenceReport }
   | { type: "done"; job: ValidationJob }
   | { type: "error"; message: string };

@@ -7,6 +7,7 @@ import {
   Cpu,
   Gauge,
   Loader2,
+  MinusCircle,
   Terminal,
   XCircle,
 } from "lucide-react";
@@ -15,7 +16,9 @@ import type {
   ConfidenceReport,
   FindingLayer,
   JobStatus,
+  SpecialistId,
 } from "@/lib/claims/types";
+import { SPECIALIST_LABELS } from "@/lib/claims/types";
 import { Card } from "@/components/ui";
 import { cn } from "@/lib/utils";
 import { ConfidenceGauge } from "./confidence-gauge";
@@ -29,25 +32,84 @@ export type LayerState = {
 
 export type LayerMap = Record<FindingLayer, LayerState>;
 
+export type SpecialistState = {
+  state: "idle" | "running" | "pass" | "fail" | "skipped";
+  errors?: number;
+  warnings?: number;
+};
+
+export type SpecialistMap = Record<SpecialistId, SpecialistState>;
+
 const STEPS: { layer: FindingLayer; label: string }[] = [
   { layer: "structural", label: "Structural" },
   { layer: "content", label: "Content & coding" },
-  { layer: "clinical", label: "Clinical evidence" },
+  { layer: "clinical", label: "Clinical evidence — specialist agents" },
 ];
 
-function StepIcon({ state }: { state: LayerState["state"] }) {
+// Render order for the clinical specialist strip.
+const SPECIALIST_ORDER: SpecialistId[] = ["coding", "necessity", "diagnosis"];
+
+function StepIcon({ state }: { state: LayerState["state"] | "skipped" }) {
   if (state === "running")
     return <Loader2 size={18} className="animate-spin text-teal-600" />;
   if (state === "pass")
     return <CheckCircle2 size={18} className="text-emerald-600" />;
   if (state === "fail") return <XCircle size={18} className="text-rose-600" />;
+  if (state === "skipped")
+    return <MinusCircle size={18} className="text-slate-400" />;
   return <Circle size={18} className="text-slate-300" />;
+}
+
+function SpecialistStrip({ specialists }: { specialists: SpecialistMap }) {
+  return (
+    <div className="mt-3 ml-7 space-y-2 border-l border-slate-200 pl-4">
+      {SPECIALIST_ORDER.map((id) => {
+        const s = specialists[id];
+        const errors = s.errors ?? 0;
+        const warnings = s.warnings ?? 0;
+        return (
+          <div key={id} className="flex items-center gap-2.5">
+            <StepIcon state={s.state} />
+            <span
+              className={cn(
+                "text-sm font-medium",
+                s.state === "idle" ? "text-slate-400" : "text-slate-700",
+              )}
+            >
+              {SPECIALIST_LABELS[id]}
+            </span>
+            {s.state === "running" && (
+              <span className="ml-auto text-xs text-slate-400">reviewing…</span>
+            )}
+            {s.state === "skipped" && (
+              <span className="ml-auto text-xs text-slate-400">skipped</span>
+            )}
+            {(s.state === "pass" || s.state === "fail") && (
+              <span
+                className={cn(
+                  "ml-auto text-xs font-semibold",
+                  errors > 0 ? "text-rose-600" : "text-emerald-600",
+                )}
+              >
+                {errors > 0 || warnings > 0
+                  ? `${errors} error${errors === 1 ? "" : "s"}${
+                      warnings ? ` · ${warnings} warning${warnings === 1 ? "" : "s"}` : ""
+                    }`
+                  : "clear"}
+              </span>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
 }
 
 export function ValidationPanel({
   jobStatus,
   engine,
   layers,
+  specialists,
   activity,
   findings,
   confidence,
@@ -57,6 +119,7 @@ export function ValidationPanel({
   jobStatus: JobStatus | null;
   engine: "agent" | "mock" | null;
   layers: LayerMap;
+  specialists: SpecialistMap;
   activity: string[];
   findings: ClaimFinding[];
   confidence: ConfidenceReport | null;
@@ -122,6 +185,9 @@ export function ValidationPanel({
             );
           })}
         </ol>
+        {layers.clinical.state !== "idle" && (
+          <SpecialistStrip specialists={specialists} />
+        )}
         {jobStatus === "failed" && (
           <p className="mt-3 flex items-center gap-2 rounded-lg bg-rose-50 p-2.5 text-sm text-rose-700">
             <CircleAlert size={15} />
