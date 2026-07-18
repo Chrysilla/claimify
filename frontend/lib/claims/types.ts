@@ -79,6 +79,16 @@ export type ClaimImportResult = {
   warnings: string[];
 };
 
+export type DemoJsonSummary = {
+  file: string;
+  label: string;
+  description: string | null;
+  severity: string | null;
+  patient_name: string;
+  total_charge: number;
+  line_count: number;
+};
+
 export type ClaimStatus = "draft" | "submitted" | "validating" | "validated";
 
 export type ClaimSummary = {
