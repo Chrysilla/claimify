@@ -9,6 +9,7 @@ import type { Claim837P, ClaimFinding } from "./types";
 import type { FindingDraft } from "./validate";
 import { clinicalRulesForPrompt, getRule } from "./rules";
 import { CPT_EVIDENCE_KEYWORDS, ICD10_EVIDENCE_KEYWORDS } from "./overlays";
+import { listNcciSections, searchNcci, readNcciSection } from "./ncci";
 
 export type ClinicalAssessment = { score: number; rationale: string };
 
@@ -225,6 +226,58 @@ async function runAgent(opts: ClinicalRunOptions): Promise<ClinicalAssessment | 
         }),
       ),
       tool(
+        "search_ncci_manual",
+        "Search the 2025 NCCI Medicaid Policy Manual for correct-coding policy language relevant to the codes/modifiers on this claim (e.g. PTP edits, modifier 59 use, bundling, mutually exclusive procedures). Returns cited passages with their chapter and line. Use a focused query of codes/keywords.",
+        { query: z.string().describe("codes, modifiers, or policy keywords to look up") },
+        async (input) => {
+          const passages = searchNcci(input.query, { limit: 6 });
+          if (passages.length === 0) {
+            return {
+              content: [
+                { type: "text" as const, text: `No NCCI passages matched "${input.query}".` },
+              ],
+            };
+          }
+          const text = passages
+            .map((p) => `[${p.section} · line ${p.line}]\n${p.text}`)
+            .join("\n\n---\n\n");
+          return { content: [{ type: "text" as const, text }] };
+        },
+      ),
+      tool(
+        "read_ncci_section",
+        "Read a full NCCI manual chapter by its id (e.g. \"01\" general policies, \"11\" medicine/E&M) when a search hit needs surrounding context. Windowed by character offset for long chapters.",
+        {
+          id: z.string().describe("chapter id like \"01\", slug, or filename"),
+          offset: z.number().int().min(0).optional(),
+        },
+        async (input) => {
+          const res = readNcciSection(input.id, { offset: input.offset ?? 0 });
+          if (!res) {
+            const index = listNcciSections()
+              .map((s) => `${s.id} — ${s.title}`)
+              .join("\n");
+            return {
+              content: [
+                {
+                  type: "text" as const,
+                  text: `No NCCI section "${input.id}". Available:\n${index}`,
+                },
+              ],
+            };
+          }
+          const more =
+            res.offset + res.length < res.total
+              ? `\n\n[…truncated. ${res.total - res.offset - res.length} chars remain; call again with offset=${res.offset + res.length}.]`
+              : "";
+          return {
+            content: [
+              { type: "text" as const, text: `# ${res.section}\n\n${res.text}${more}` },
+            ],
+          };
+        },
+      ),
+      tool(
         "report_finding",
         "Report one clinical-evidence validation finding. Call once per distinct issue, as soon as you confirm it.",
         findingInputSchema,
@@ -266,6 +319,8 @@ async function runAgent(opts: ClinicalRunOptions): Promise<ClinicalAssessment | 
     "mcp__claimify__get_transcript",
     "mcp__claimify__get_fhir_context",
     "mcp__claimify__get_medical_necessity_rules",
+    "mcp__claimify__search_ncci_manual",
+    "mcp__claimify__read_ncci_section",
     "mcp__claimify__report_finding",
     "mcp__claimify__report_confidence",
   ];
@@ -278,8 +333,9 @@ Method:
 1. Read the claim (get_claim), then the clinical note, transcript, and FHIR context, plus the medical-necessity rules.
 2. For EACH service line: verify the documentation supports that the service was performed and medically necessary. For E/M codes, check the documented time (encounter period) and complexity plausibly support the level billed.
 3. For EACH diagnosis referenced by a pointer: verify it is documented in this encounter (note, transcript, or FHIR conditions/observations).
-4. Report every confirmed issue via report_finding with verbatim evidence excerpts (quote the note/transcript). Do not report issues the earlier layers already raised. If everything is supported, report no findings.
-5. Finish with exactly one report_confidence call: the probability Medicare accepts the claim as billed, considering your findings AND the earlier layers' findings (structural errors make acceptance nearly impossible; unsupported services usually cause line denials).
+4. When two or more service lines could conflict under correct-coding rules (bundled/PTP-edited codes, mutually exclusive procedures, or a modifier 59 override), consult the NCCI manual with search_ncci_manual (and read_ncci_section for context) and cite the chapter/policy in your finding.
+5. Report every confirmed issue via report_finding with verbatim evidence excerpts (quote the note/transcript, and the NCCI passage when policy-based). Do not report issues the earlier layers already raised. If everything is supported, report no findings.
+6. Finish with exactly one report_confidence call: the probability Medicare accepts the claim as billed, considering your findings AND the earlier layers' findings (structural errors make acceptance nearly impossible; unsupported services usually cause line denials).
 
 Be precise and cite real excerpts. Never invent documentation that is not there.`;
 
