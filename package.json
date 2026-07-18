@@ -1,0 +1,16 @@
+{
+  "name": "claimify",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Claimify — AI healthcare workflow starter with an 837P claim validation engine",
+  "scripts": {
+    "dev": "bash scripts/dev-all.sh",
+    "dev:claims": "npm --prefix frontend run dev:claims",
+    "dev:mock": "USE_MOCK_AI=true bash scripts/dev-all.sh",
+    "setup": "npm --prefix frontend install && npm --prefix frontend run seed:claims",
+    "seed": "npm --prefix frontend run seed:claims",
+    "build": "npm --prefix frontend run build",
+    "start": "npm --prefix frontend run start",
+    "ingest:rules": "npm --prefix frontend run ingest:rules --"
+  }
+}

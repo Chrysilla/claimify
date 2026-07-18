@@ -1,125 +1,171 @@
-# Claimify healthcare AI starter
+# Claimify
 
-Claimify is a polished full-stack starter for one-day AI healthcare hackathons. It provides a credible clinical review workflow, fictional patient data, provider-neutral AI, explicit human approval, and deployment-ready frontend/backend projects—without requiring a paid API or cloud database.
+Claimify is a full-stack **Next.js** application for pre-submission healthcare
+claim review. Its centerpiece is an **837P professional-claim validation engine
+and medical-necessity scorer** with an agentic clinical-evidence layer powered by
+the **Claude Agent SDK**. It also includes a lightweight patient documentation
+review workflow. Everything — UI, API, data, and AI — runs on a single Next.js
+stack with SQLite; no separate backend and no paid API required to demo.
 
-The included demo catches a likely lumbar MRI authorization issue before submission: the clinical note mentions conservative treatment but omits the duration required by a fictional payer rule.
+> Demo only. All people, plans, identifiers, notes, claims, and rules are
+> fictional or synthetic. This software is not a medical device and does not
+> provide clinical or billing advice.
 
-> Demo only. All people, plans, identifiers, notes, and rules are fictional. This software is not a medical device and does not provide clinical advice.
+## What's inside
+
+- **837P claims workspace (`/claims`)** — a web form mirroring the 837P structure
+  (billing provider 2010AA, subscriber 2010BA, payer 2010BB, claim info 2300,
+  diagnosis codes, service lines 2400) prefilled from synthetic FHIR encounters.
+  Submit a claim to run three validation layers:
+  1. **Structural** (deterministic) — required loops, balanced totals, diagnosis
+     pointers, duplicate lines, frequency codes.
+  2. **Content & coding** (deterministic) — ICD-10/CPT formats, NPI check digits,
+     DOS vs encounter period, place of service, eligibility, provider registry,
+     timely filing.
+  3. **Clinical evidence** (agentic, Claude Agent SDK) — grounds every billed
+     service and diagnosis against the encounter note, transcript, and FHIR
+     context, citing verbatim evidence.
+
+  Findings stream to the UI live and the claim receives a **Medicare-acceptance
+  confidence score**. Each finding is reviewable (approve / edit / reject).
+- **Patient review workflow (`/patients`, `/review-queue`)** — a documentation
+  review demo over three fictional patients with a deterministic mock reviewer.
 
 ## Architecture
 
 ```text
-Next.js workflow UI :3000
-          │ REST
-FastAPI + Pydantic :8000
-          ├── SQLAlchemy → SQLite (default) / Postgres
-          ├── mock / OpenAI / Anthropic provider interface
-          └── demo/*.json + prompts/*.md
+Next.js app :3000
+  ├── app/                UI (server + client components)
+  ├── app/api/            Route handlers (all runtime = "nodejs")
+  │     ├── claims/**            837P claims + validation + findings
+  │     ├── validation/**        SSE job stream
+  │     ├── patients/**          patient documentation review
+  │     └── findings/**          review lifecycle
+  ├── lib/claims/         SQLite, validators, rule catalog, Agent SDK runner, scoring
+  ├── lib/patients/       in-memory demo store (demo/*.json)
+  ├── rules/837p-rules.json      validation rule catalog
+  ├── demo/*.json                fictional patient fixtures
+  └── scripts/            seed-claims.ts, ingest-rules.ts
 ```
 
-See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for boundaries and data flow.
+See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for boundaries and data flow, and
+[docs/CLAIMS.md](docs/CLAIMS.md) for the claims engine in depth.
 
 ## Prerequisites
 
 - macOS or Linux
 - Node.js 22+
 - npm 10+
-- [uv](https://docs.astral.sh/uv/) 0.11+
-- GNU or BSD Make
 
 ## Start locally
 
 ```bash
-make install
-make reset
-make dev
+npm run setup    # install deps + seed the claims database (one time)
+npm run dev      # start the app; open http://localhost:3000/claims
 ```
 
-Open [http://localhost:3000](http://localhost:3000). FastAPI docs are at [http://localhost:8000/docs](http://localhost:8000/docs). Stop both servers with `Ctrl-C`.
+`npm run dev` seeds the claims DB if needed and starts Next.js. Stop with `Ctrl-C`.
 
-The defaults require no `.env` files. To customize them:
-
-```bash
-cp frontend/.env.example frontend/.env.local
-cp backend/.env.example backend/.env
-```
-
-## Environment variables
-
-| Variable | Default | Purpose |
-|---|---|---|
-| `DATABASE_URL` | `sqlite:///./claimify.db` | SQLAlchemy database URL; use a Supabase Postgres URL later |
-| `FRONTEND_ORIGIN` | `http://localhost:3000` | Allowed browser origin |
-| `USE_MOCK_AI` | `true` | Forces deterministic no-key behavior |
-| `AI_PROVIDER` | `mock` | `mock`, `openai`, or `anthropic` |
-| `AI_MODEL` | empty | Provider model selected for live mode |
-| `OPENAI_API_KEY` | empty | Optional live OpenAI credential |
-| `ANTHROPIC_API_KEY` | empty | Optional live Anthropic credential |
-| `NEXT_PUBLIC_API_URL` | `http://localhost:8000` | Browser-visible API base URL |
-
-If a selected live provider has no credential, the backend safely falls back to mock mode.
-
-## Commands
+## Commands (repo root)
 
 | Command | Action |
 |---|---|
-| `make install` | Install uv and npm dependencies |
-| `make dev` | Start frontend and backend together |
-| `make seed` / `make reset` | Restore canonical fictional demo records and clear findings |
-| `make test` | Run backend and frontend tests |
-| `make lint` | Run Ruff and ESLint |
-| `make format` | Format Python and web files |
-| `make build` | Compile the backend and build Next.js for production |
+| `npm run setup` | Install frontend dependencies and seed the claims database |
+| `npm run dev` | Seed (if missing) and start the Next.js app |
+| `npm run dev:mock` | Same, forcing the deterministic mock validator (no API key, no tokens) |
+| `npm run dev:claims` | Alias — the whole app is Next.js, so this is equivalent to `dev` |
+| `npm run seed` | Deterministic reset of the claims database |
+| `npm run build` / `npm run start` | Production build / serve |
+| `npm run ingest:rules -- <pdf>` | Parse an 837P rules PDF into the rule catalog |
 
-## Two-minute walkthrough
+`make dev` / `make install` / `make seed` / `make test` / `make lint` / `make build`
+are thin wrappers around the same npm scripts.
 
-1. `make reset`, then open the dashboard.
-2. Open high-urgency patient **Maya Thompson**.
-3. Show the source note and insurance rule.
-4. Run the AI review. It identifies missing conservative-treatment dates and cites both supplied sources.
-5. Edit the action, approve it, and emphasize that the finding stayed pending until a human decision.
+## AI engine selection
 
-The full talk track is in [docs/DEMO.md](docs/DEMO.md).
+The clinical-evidence layer runs the Claude Agent SDK when credentials are
+available, and a deterministic mock otherwise — with automatic fallback.
+
+| Condition | Engine |
+|---|---|
+| `USE_MOCK_AI=true` | Deterministic mock validator (no key) |
+| `ANTHROPIC_API_KEY` set, or a local Claude Code login (`~/.claude`) | Claude Agent SDK |
+| Agent errors mid-run | Automatic fallback to the mock |
+
+Optional environment variables (all have working defaults — no `.env` needed):
+
+| Variable | Default | Purpose |
+|---|---|---|
+| `USE_MOCK_AI` | unset | Set `true` to force the deterministic mock clinical layer |
+| `ANTHROPIC_API_KEY` | unset | Enables the Claude Agent SDK clinical layer |
+| `CLAIMIFY_AGENT_MODEL` | `claude-opus-4-8` | Model for the clinical agent |
+| `CLAIMS_DB_PATH` | `frontend/claimify-claims.db` | SQLite database location |
+
+## Demo: 837P golden claim
+
+Patient **Elias Wisozk** (general adult exam — new hypertension + metabolic
+syndrome). Golden claim: 99204 office visit + G0444 depression screening + G0442
+alcohol screening, $211, dx I10 / E88.81 / E66.9 / Z68.30 / K05.10 / Z13.31 /
+Z13.89.
+
+1. Open `/claims`, pick Elias Wisozk → the prefilled draft.
+2. Submit as-is → all three layers pass, high acceptance probability.
+3. Pick an **error-injection scenario** (e.g. *Unsupported procedure*,
+   *Upcoded E/M*, *Invalid place of service*) → Submit → structural/content
+   findings appear instantly, the agent streams its clinical review with cited
+   evidence, and the confidence gauge drops with an explanation.
+4. Approve / edit / reject each finding — the human stays in the loop.
+5. **Reset to draft** restores the pristine claim.
+
+Full talk track: [docs/CLAIMS.md](docs/CLAIMS.md). The patient-review demo
+walkthrough is in [docs/DEMO.md](docs/DEMO.md).
 
 ## Tests
 
 ```bash
-make test
-make lint
-make build
+npm run build --prefix frontend   # production compile + typecheck
+npm run lint --prefix frontend
+npm test --prefix frontend -- --run
 ```
 
-The practical suite covers health, patient retrieval and mutation, reset determinism, structured mock results, edit/approve/reject state, and the reusable frontend AI review panel.
+## Deployment (Vercel)
 
-## Deployment
+Import the repository, set `frontend` as the root directory, and deploy — the
+included `frontend/vercel.json` selects Next.js. Set `ANTHROPIC_API_KEY` to enable
+the live agent (or leave it unset for mock mode). Note that the claims SQLite
+database is generated by `npm run seed:claims` at build/seed time; for a
+persistent multi-instance deployment, point `CLAIMS_DB_PATH` at durable storage or
+run the seed as part of the build.
 
-### Frontend on Vercel
+## Rules PDF ingestion
 
-Import the repository, choose `frontend` as the root directory, and set `NEXT_PUBLIC_API_URL` to the deployed API URL. The included `vercel.json` selects Next.js.
+`frontend/rules/837p-rules.json` ships a fictional Medicare-style starter catalog.
+Replace it with rules extracted from your own PDF:
 
-### Backend on Railway
-
-Deploy from the repository using `railway.json`. Set `FRONTEND_ORIGIN`, `USE_MOCK_AI`, and optionally `DATABASE_URL`. SQLite is suitable for a disposable demo; use hosted Postgres for persistent deployments.
-
-### Backend on Render
-
-Create a Blueprint from `backend/render.yaml`, or use build command `pip install uv && uv sync --frozen --no-dev` and start command `uv run uvicorn app.main:app --host 0.0.0.0 --port $PORT` from the backend directory.
-
-## Adapt to the final hackathon idea
-
-1. Keep the human-review lifecycle and replace the domain copy in the frontend.
-2. Replace only fictional fixtures in `demo/`; preserve stable source IDs.
-3. Update `prompts/` with workflow-specific rules and evaluate them against known cases.
-4. Adjust Pydantic finding fields only when the new workflow needs different reviewer decisions.
-5. Extend the mock provider first so the pitch remains reliable, then enable a live provider.
+```bash
+cd frontend
+ANTHROPIC_API_KEY=... npm run ingest:rules -- /path/to/837p-rules.pdf
+```
 
 ## Troubleshooting
 
-- **Frontend says it cannot load:** confirm `curl http://localhost:8000/api/health` works and `NEXT_PUBLIC_API_URL` is correct.
-- **Browser shows a CORS error:** set `FRONTEND_ORIGIN` to the exact frontend origin and restart the API.
-- **Demo state is messy:** run `make reset`; this intentionally clears local findings.
-- **AI does not call a live model:** set `USE_MOCK_AI=false`, select `AI_PROVIDER`, provide its API key and model, then restart.
-- **Port already in use:** stop the existing process on ports 3000/8000 or run each project independently with a different port.
-- **SQLite cannot be written in production:** use a persistent disk or set `DATABASE_URL` to Postgres.
+- **A page fails to load data:** the app serves its own API — confirm the dev
+  server is running and reachable at `http://localhost:3000`.
+- **`/claims` says the database is empty:** run `npm run seed:claims` in
+  `frontend/`.
+- **Claims demo state is messy:** run `npm run seed` (deterministic reset), or use
+  "Reset to draft" in the claim editor.
+- **Agent doesn't run:** ensure `ANTHROPIC_API_KEY` is set (or a Claude Code login
+  exists) and `USE_MOCK_AI` is not `true`; otherwise the mock validator runs.
+- **Port already in use:** stop the process on port 3000 or start with a different
+  `PORT`.
 
-Agent contributors should read [AGENTS.md](AGENTS.md) before modifying the golden demo path.
+## Data & licensing
+
+The `synthetic-ambient-fhir-25/` dataset (provided by Abridge for the hackathon)
+and the generated `claimify-claims.db` are gitignored — do not commit them
+publicly. The rule catalog is original fictional content; do not paste licensed
+X12 TR3 or CPT text into it.
+
+Agent contributors should read [AGENTS.md](AGENTS.md) before modifying the golden
+demo path.
