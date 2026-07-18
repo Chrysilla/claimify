@@ -11,17 +11,30 @@ import type {
   FindingLayer,
   JobEvent,
   JobStatus,
+  SpecialistId,
 } from "@/lib/claims/types";
 import { Button } from "@/components/ui";
 import { ClaimForm } from "./claim-form";
 import { ScenarioBar } from "./scenario-bar";
-import { ValidationPanel, type LayerMap } from "./validation-panel";
+import {
+  ValidationPanel,
+  type LayerMap,
+  type SpecialistMap,
+} from "./validation-panel";
 
 const IDLE_LAYERS: LayerMap = {
   structural: { state: "idle" },
   content: { state: "idle" },
   clinical: { state: "idle" },
 };
+
+const IDLE_SPECIALISTS: SpecialistMap = {
+  coding: { state: "idle" },
+  necessity: { state: "idle" },
+  diagnosis: { state: "idle" },
+};
+
+const SPECIALIST_IDS: SpecialistId[] = ["coding", "necessity", "diagnosis"];
 
 // Rebuild pipeline display for a finished job loaded from the server.
 function layersFromHistory(
@@ -47,6 +60,21 @@ function layersFromHistory(
   return map;
 }
 
+// Rebuild the clinical specialist strip from a finished job's findings.
+function specialistsFromHistory(detail: ClaimDetail): SpecialistMap {
+  if (!detail.latest_job || detail.latest_job.status !== "complete") {
+    return structuredClone(IDLE_SPECIALISTS);
+  }
+  const map = structuredClone(IDLE_SPECIALISTS);
+  for (const id of SPECIALIST_IDS) {
+    const mine = detail.findings.filter((f) => f.agent === id);
+    const errors = mine.filter((f) => f.severity === "error").length;
+    const warnings = mine.filter((f) => f.severity === "warning").length;
+    map[id] = { state: errors > 0 ? "fail" : "pass", errors, warnings };
+  }
+  return map;
+}
+
 export function ClaimEditor({ initial }: { initial: ClaimDetail }) {
   const [claim, setClaim] = useState<Claim837P>(initial.claim);
   const [scenario, setScenario] = useState<string | null>(initial.scenario);
@@ -65,6 +93,9 @@ export function ClaimEditor({ initial }: { initial: ClaimDetail }) {
     initial.latest_job?.engine ?? null,
   );
   const [layers, setLayers] = useState<LayerMap>(layersFromHistory(initial));
+  const [specialists, setSpecialists] = useState<SpecialistMap>(
+    specialistsFromHistory(initial),
+  );
   const [findings, setFindings] = useState<ClaimFinding[]>(initial.findings);
   const [activity, setActivity] = useState<string[]>([]);
   const [confidence, setConfidence] = useState<ConfidenceReport | null>(
@@ -102,6 +133,22 @@ export function ClaimEditor({ initial }: { initial: ClaimDetail }) {
             ? prev
             : [...prev, event.finding],
         );
+        break;
+      case "agent_start":
+        setSpecialists((prev) => ({
+          ...prev,
+          [event.agent]: { state: "running" },
+        }));
+        break;
+      case "agent_done":
+        setSpecialists((prev) => ({
+          ...prev,
+          [event.agent]: {
+            state: event.state,
+            errors: event.errors,
+            warnings: event.warnings,
+          },
+        }));
         break;
       case "agent_activity":
         setActivity((prev) => [...prev.slice(-19), event.text]);
@@ -193,6 +240,7 @@ export function ClaimEditor({ initial }: { initial: ClaimDetail }) {
       setJobStatus(null);
       setEngine(null);
       setLayers(structuredClone(IDLE_LAYERS));
+      setSpecialists(structuredClone(IDLE_SPECIALISTS));
       setFindings([]);
       setActivity([]);
       setConfidence(null);
@@ -223,6 +271,7 @@ export function ClaimEditor({ initial }: { initial: ClaimDetail }) {
     setActivity([]);
     setConfidence(null);
     setLayers(structuredClone(IDLE_LAYERS));
+    setSpecialists(structuredClone(IDLE_SPECIALISTS));
     setJobStatus("pending");
     try {
       await claimsApi.save(initial.id, claim, scenario);
@@ -312,6 +361,7 @@ export function ClaimEditor({ initial }: { initial: ClaimDetail }) {
           jobStatus={jobStatus}
           engine={engine}
           layers={layers}
+          specialists={specialists}
           activity={activity}
           findings={findings}
           confidence={confidence}

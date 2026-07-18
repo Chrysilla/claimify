@@ -123,6 +123,7 @@ CREATE TABLE IF NOT EXISTS findings (
   severity TEXT NOT NULL,
   loop_segment TEXT,
   field TEXT,
+  agent TEXT,
   issue TEXT NOT NULL,
   why_it_matters TEXT NOT NULL,
   evidence_json TEXT NOT NULL DEFAULT '[]',
@@ -137,11 +138,26 @@ declare global {
   var __claimsDb: Database.Database | undefined;
 }
 
+// Idempotent, additive migrations for DBs seeded before a column existed.
+// CREATE TABLE IF NOT EXISTS won't add columns to an existing table, so we
+// ALTER and swallow the "duplicate column" error when it's already there.
+function migrate(db: Database.Database): void {
+  const addColumn = (table: string, column: string, type: string) => {
+    try {
+      db.exec(`ALTER TABLE ${table} ADD COLUMN ${column} ${type}`);
+    } catch {
+      // Column already exists — nothing to do.
+    }
+  };
+  addColumn("findings", "agent", "TEXT");
+}
+
 export function getDb(): Database.Database {
   if (!globalThis.__claimsDb) {
     const db = new Database(DB_FILE);
     db.pragma("journal_mode = WAL");
     db.exec(SCHEMA);
+    migrate(db);
     globalThis.__claimsDb = db;
   }
   return globalThis.__claimsDb;

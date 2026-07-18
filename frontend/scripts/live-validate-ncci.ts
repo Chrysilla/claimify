@@ -22,6 +22,7 @@ if (!row) {
   process.exit(1);
 }
 const claim = JSON.parse(row.claim_json) as Claim837P;
+const encounterId = row.encounter_id;
 
 console.log(`Claim ${claimId}  engine=${agentCredentialsAvailable() ? "agent" : "mock"}`);
 console.log(
@@ -37,7 +38,7 @@ const { assessment, engineUsed } = await runClinicalValidation({
   engine: agentCredentialsAvailable() ? "agent" : "mock",
   claim,
   claimId,
-  encounterId: row.encounter_id,
+  encounterId,
   deterministicFindings: [],
   addFinding: (draft: FindingDraft) => {
     const f = { id: `f-${findings.length}`, claim_id: claimId, ...draft } as ClaimFinding;
@@ -46,9 +47,12 @@ const { assessment, engineUsed } = await runClinicalValidation({
     return f;
   },
   emitActivity: (text: string) => {
-    if (text.includes("ncci")) ncciCalls++;
+    if (text.toLowerCase().includes("ncci")) ncciCalls++;
     console.log(`  · ${text}`);
   },
+  emitAgentStart: (agent, label) => console.log(`  ▶ ${label} (${agent}) started`),
+  emitAgentDone: (agent, state, errors, warnings) =>
+    console.log(`  ■ ${agent} ${state} — ${errors} error(s), ${warnings} warning(s)`),
 });
 
 console.log("─".repeat(72));
