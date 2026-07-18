@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import {
   Activity,
   ClipboardCheck,
+  FileCheck2,
   LayoutDashboard,
   Settings,
   Stethoscope,
@@ -13,6 +14,7 @@ import { cn } from "@/lib/utils";
 const nav = [
   { href: "/", label: "Dashboard", icon: LayoutDashboard },
   { href: "/patients", label: "Patients", icon: Users },
+  { href: "/claims", label: "Claims", icon: FileCheck2 },
   { href: "/review-queue", label: "Review Queue", icon: ClipboardCheck },
   { href: "/settings", label: "Settings", icon: Settings },
 ];
